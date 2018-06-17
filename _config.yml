@@ -3,17 +3,17 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle:
-description:
+title: LEOFE
+subtitle: 知识杂货店
+description: 一点一滴的记录
 keywords:
-author: John Doe
+author: leo yang
 language:
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://codeSniper.github.io
+url: https://leofe.github.io
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
@@ -79,5 +79,12 @@ theme: hexo-theme-xups
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: https://github.com/leofe/leofe.git,
+  repo: https://github.com/leofe/leofe.github.io.git,
   branch: master
+
+comment:
+  enable: true      # 是否开启配置
+  owner: codeSnipe  # 你的 github 账户名
+  repo: https://github.com/leofe/leofe.git # github repository
+  client_id: c5f228f544d943181242 # github application client id
+  client_secret: df3363ed741c2d6768baacf3cd0055474f3432d7 # github application secret

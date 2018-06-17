@@ -1,0 +1,34 @@
+---
+title: react组件原有属性写法
+date: {{ date }}
+author: leo
+tags: react
+categories:
+    - 技术仓库
+thumbnail:
+blogexcerpt: 需要禁用input的autocomplete属性。
+
+---
+
+### react组件原有属性写法
+
+场景：需要禁用input的autocomplete属性。
+
+原始写法：
+```
+<input autocomplete="off"/>
+```
+如果react中采用同样写法(会报错)
+```
+render() {
+    return <input autocomplete="off"></input>
+}
+```
+经过调研发现，react中原有属性，需要使用驼峰命名法，正确写法如下：
+
+```
+render() {
+    return <input autoComplete="off"></input>
+}
+```
+此种情况使用于很多场景，如input的max-length => maxLength。
