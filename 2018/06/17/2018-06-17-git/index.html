@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" >
+    <meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8" >
+    <meta name="baidu-site-verification" content="dIcXMeY8Ya" />
+    
+    <title>Git删除与恢复branch | LEOFE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" >
+    <meta name="keywords" content="Leo, 前端, Web, 生活心得, 前端开发" >
+    <meta name="description" content="知识杂货店" >
+
+    
+    <link rel="alternative" href="/atom.xml" title="LEOFE" type="application/atom+xml" >
+    
+    
+    <link rel="shortcut icon" href="/favicon.ico" >
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <!--[if lt IE 9]>
+    <script src="/js/html5.js"></script>
+    <![endif]-->
+    
+
+</head>
+
+<body class="home">
+    <!--[if lt IE 9]>
+    <div class="browsehappy">
+        当前网页 <strong>不支持</strong>
+        你正在使用的浏览器. 为了正常的访问, 请 <a href="http://browsehappy.com/">升级你的浏览器</a>.
+    </div>
+    <![endif]-->
+
+    <!-- 博客头部 -->
+    <header class="header">
+    <section class="container header-main">
+        <div class="logo">
+            <a href="/">
+                <div class="cover">
+                    <span class="name">LEOFE</span>
+                    <span class="description">知识杂货店</span>
+                </div>
+            </a>
+        </div>
+        <div class="dropnav icon-paragraph-justify" id="JELON__btnDropNav"></div>
+        <ul class="menu hidden" id="JELON__menu">
+            
+            <li rel="/2018/06/17/2018-06-17-git/index.html" class="item ">
+                <a href="/" title="首页" class="icon-home">&nbsp;首页</a>
+            </li>
+            
+            <li rel="/2018/06/17/2018-06-17-git/index.html" class="item ">
+                <a href="/about/" title="关于" class="icon-about">&nbsp;关于</a>
+            </li>
+            
+            <li rel="/2018/06/17/2018-06-17-git/index.html" class="item ">
+                <a href="/comment/" title="留言" class="icon-comment">&nbsp;留言</a>
+            </li>
+            
+        </ul>
+        <div class="profile clearfix">
+            <div class="feeds fl">
+                
+                
+                <p class="links">
+                    
+                        <a href="https://github.com/codeSnipe" target="_blank">Github</a>
+                        |
+                    
+                        <a href="https://www.jianshu.com/u/e7ff8dafa3c3" target="_blank">简书</a>
+                        
+                    
+                </p>
+                <p class="sns">
+                    
+                    <a href="javascript: void(0);" class="wechat">
+                        <b>■</b>
+                        微信号
+                        <span class="popover">
+                            <img src="/img/wechat.jpg" width="120" height="120" alt="我的微信订阅号">
+                            <i class="arrow"></i>
+                        </span>
+                    </a>
+                </p>
+                
+            </div>
+            <div class="avatar fr">
+                <img src="/img/leofe.jpg" alt="avatar" title="Leo" >
+            </div>
+        </div>
+    </section>
+</header>
+
+
+    <!-- 博客正文 -->
+    <div class="container body clearfix">
+        <section class="content">
+            <div class="content-main widget">
+                <!-- 文章页 -->
+<!-- 文章 -->
+<article class="post article">
+    <header class="text-center">
+        <h3 class="post-title"><span>Git删除与恢复branch</span></h3>
+    </header>
+    <p class="post-meta text-center">
+        leo 发表于
+        <time datetime="2018-06-16T16:00:00.000Z">2018-06-17</time>
+    </p>
+    <div class="post-content">
+        <p>有没有，git创建无意中名字起错了，分支上传错了，想删除了？删除做了想恢复了？远程与本地都删除了要恢复的情况呢？如果有，那么一下内容获取你会感兴趣。</p>
+<h2 id="删除分支"><a href="#删除分支" class="headerlink" title="删除分支"></a>删除分支</h2><p>有的时候可能会遇到需要删除git的branch的情况，那么要如何去删除呢,删除分支可以分为2种情况。</p>
+<h3 id="删除本地分支-git-branch-D-branchName"><a href="#删除本地分支-git-branch-D-branchName" class="headerlink" title="删除本地分支(git branch -D branchName)"></a>删除本地分支(git branch -D branchName)</h3><p>删除服务端分支 (git push origin –delete branchName)</p>
+<ol>
+<li><p>第一种情况<br>当出入删除本地分支命令时，bash中会返回如下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git branch -D trunk.201705</span><br><span class="line">Deleted branch trunk.201705 (was 9cc0374).</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>第二种情况<br>当决定删除服务端分支时，一定要慎重，bash中会返回如下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin –delete trunk.201705</span><br><span class="line">remote: Updating references: 100% (1/1)</span><br><span class="line">To http://source.jd.com/app/webpack-scaffold.git</span><br><span class="line">– [deleted] trunk.201705</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="恢复分支"><a href="#恢复分支" class="headerlink" title="恢复分支"></a>恢复分支</h2><p>当你只删除本地的时候，可以重新从git服务器上clone一份，大家也都会如此操作，但是，如果你无意中把服务器端的所有分支都删除掉了，那要如何来恢复呢？因为分支删除后，git中是不存在提交记录查询的了。如果真有次误操作，大家不要着急，恢复方法如下：</p>
+<h3 id="第一步，输入命令"><a href="#第一步，输入命令" class="headerlink" title="第一步，输入命令"></a>第一步，输入命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ git log -g</span><br><span class="line">commit 97b5c828cd4f2214cfa33be31867dbf34b48e547</span><br><span class="line">Reflog: HEAD@&#123;0&#125; (Git账号&lt;Git密码&gt;)</span><br><span class="line">Reflog message: checkout: moving from trunk.201704 to master</span><br><span class="line">Author: Git账号&lt;Git密码&gt;</span><br><span class="line">Date: Thu May 25 11:22:23 2017 +0800</span><br></pre></td></tr></table></figure>
+<p>提交记录的备注<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">commit 77bd9ed5507a774e579f67e348e338093dd68252</span><br><span class="line">Reflog: HEAD@&#123;1&#125; (Git账号&lt;Git密码&gt;)</span><br><span class="line">Reflog message: checkout: moving from master to trunk.201704</span><br><span class="line">Author: Git账号 &lt;Git密码&gt;</span><br><span class="line">Date: Thu May 25 11:21:06 2017 +0800</span><br></pre></td></tr></table></figure></p>
+<p>提交记录的备注</p>
+<blockquote>
+<p>此命令会从本地的代码库中查询到你的所有提交记录</p>
+</blockquote>
+<h3 id="第二步：还原到对应的commit代码中去，蓝色的内容为commit-id，可以通过此ID来指定恢复的版本，使用如下命令"><a href="#第二步：还原到对应的commit代码中去，蓝色的内容为commit-id，可以通过此ID来指定恢复的版本，使用如下命令" class="headerlink" title="第二步：还原到对应的commit代码中去，蓝色的内容为commit-id，可以通过此ID来指定恢复的版本，使用如下命令"></a>第二步：还原到对应的commit代码中去，蓝色的内容为commit-id，可以通过此ID来指定恢复的版本，使用如下命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git branch trunk.201704 77bd9ed5507a774e579f67e348e338093dd68252</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>此命令会在对应的项目中创建一个分支，名字为trunk.201704,此分支的代码为后面commit-id对应的代码内容。</p>
+</blockquote>
+<h3 id="第三步：-查看一下分支内容吧，"><a href="#第三步：-查看一下分支内容吧，" class="headerlink" title="第三步： 查看一下分支内容吧，"></a>第三步： 查看一下分支内容吧，</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ git branch -a</span><br><span class="line">Branch_trunk.201704</span><br><span class="line">master</span><br><span class="line">trunk.201704</span><br><span class="line">* trunk.201705</span><br><span class="line">remotes/origin/HEAD -&gt; origin/master</span><br><span class="line">remotes/origin/master</span><br></pre></td></tr></table></figure>
+<p>是不是发现本地多了一个分支。</p>
+<h3 id="第四步：那么可以将此代码上传到服务器了，可以在服务器端新建一个分支，然后清空，将还原的分支内容copy进去，在push，则可以成功的还原到之前的版本了。"><a href="#第四步：那么可以将此代码上传到服务器了，可以在服务器端新建一个分支，然后清空，将还原的分支内容copy进去，在push，则可以成功的还原到之前的版本了。" class="headerlink" title="第四步：那么可以将此代码上传到服务器了，可以在服务器端新建一个分支，然后清空，将还原的分支内容copy进去，在push，则可以成功的还原到之前的版本了。"></a>第四步：那么可以将此代码上传到服务器了，可以在服务器端新建一个分支，然后清空，将还原的分支内容copy进去，在push，则可以成功的还原到之前的版本了。</h3><p>当然大家在操作的时候，切记要慎重，不要轻易删除git服务端的分支代码。</p>
+<pre><code>PS：以上代码块内容中标红内容为命令，其他内容为执行命令后的返回内容。
+</code></pre>
+    </div>
+    <p class="post-meta">
+        <span class="post-cat">分类：
+            <a class="cat-link" href="/categories/技术仓库/">技术仓库</a>
+        </span>
+        <span class="post-tags">
+            标签：
+            
+    
+        <a href="/tags/Git/" title="Git">Git</a>
+    
+
+        </span>
+    </p>
+</article>
+<!-- 分享按钮 -->
+
+  <div class="article-share clearfix text-center">
+    <div class="share-area">
+      <span class="share-txt">分享到：</span>
+      <a href="javascript: window.open('http://service.weibo.com/share/share.php?url=' + encodeURIComponent(location.href) + '&title=' + document.title + '&language=zh_cn');" class="share-icon weibo"></a>
+      <a href="javascript: alert('请复制链接到微信并发送');" class="share-icon wechat"></a>
+      <a href="javascript: window.open('http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + encodeURIComponent(location.href) + '&title=' + document.title);" class="share-icon qqzone"></a>
+      <a href="javascript: window.open('http://connect.qq.com/widget/shareqq/index.html?url=' + encodeURIComponent(location.href) + '&desc=Jelon个人博客&title=' + document.title + '&callback=' + encodeURIComponent(location.href));" class="share-icon qq"></a>
+      <a href="javascript: window.open('http://shuo.douban.com/!service/share?href=' + encodeURIComponent(location.href) + '&name=' + document.title + '&text=' + document.title);" class="share-icon douban"></a>
+    </div>
+  </div>
+
+
+<!-- 上一篇/下一篇 -->
+
+<div class="article-nav clearfix">
+    
+    <span class="prev fl">
+        上一篇<br >
+        <a href="javascript: void(0);">没有上一篇了</a>
+    </span>
+    
+
+    
+    <span class="next fr">
+        下一篇<br >
+        <a href="/2018/04/13/2018-04-13-yanglei12/">
+            
+                WebGL实战
+            
+        </a>
+    </span>
+    
+</div>
+
+<!-- 文章评论 -->
+
+  <script src="/js/comment.js"></script>
+  <div id="comments" class="comment">
+    <!--
+    <div class="sign-bar">
+      GitHub 已登录!
+      <span class="sign-link">登出</span>
+    </div>
+    <section class="box">
+      <div class="com-avatar"><img src="/img/jelon.jpg" alt="avatar"></div>
+      <div class="com-text">
+        <div class="main">
+          <textarea class="text-area-edited show" placeholder="欢迎评论！"></textarea>
+          <div class="text-area-preview"></div>
+        </div>
+        <div class="switch">
+          <div class="switch-item on">编辑</div>
+          <div class="switch-item">预览</div>
+        </div>
+        <div class="button">提交</div>
+      </div>
+    </section>
+    <section class="tips">注：评论支持 markdown 语法！</section>
+    <section class="list-wrap">
+      <ul class="list">
+        <li>
+          <div class="user-avatar">
+            <a href="/">
+              <img src="/img/jelon.jpg" alt="user-avatar">
+            </a>
+          </div>
+          <div class="user-comment">
+            <div class="user-comment-header">
+              <span class="post-name">张德龙</span>
+              <span class="post-time">2017年12月12日</span>
+              <span class="like liked">已赞</span>
+              <span class="like-num">2</span>
+            </div>
+            <div class="user-comment-body">333333</div>
+          </div>
+        </li>
+        <li>
+          <div class="user-avatar">
+            <a href="/">
+              <img src="/img/jelon.jpg" alt="user-avatar">
+            </a>
+          </div>
+          <div class="user-comment">
+            <div class="user-comment-header">
+              <span class="post-name">刘德华</span>
+              <span class="post-time">2017年12月12日</span>
+              <span class="like">点赞</span>
+              <span class="like-num">2</span>
+            </div>
+            <div class="user-comment-body">vvvvv</div>
+          </div>
+        </li>
+      </ul>
+      <div class="page-nav">
+        <a href="javascript: void(0);" class="item">1</a>
+        <a href="javascript: void(0);" class="item">2</a>
+        <a href="javascript: void(0);" class="item current">3</a>
+      </div>
+    </section>
+    -->
+  </div>
+  <script>
+  JELON.Comment({
+    container: 'comments',
+    label: '2018-06-17-git',
+    owner: 'leofe',
+    repo: 'leofe.github.io',
+    clientId: 'c5f228f544d943181242',
+    clientSecret: 'df3363ed741c2d6768baacf3cd0055474f3432d7'
+  });
+  </script>
+
+
+            </div>
+
+        </section>
+        <!-- 侧栏部分 -->
+<aside class="sidebar">
+    <section class="widget">
+        <h3 class="widget-hd"><strong>文章分类</strong></h3>
+        <!-- 文章分类 -->
+<ul class="widget-bd">
+    
+    <li>
+        <a href="/categories/技术仓库/">技术仓库</a>
+        <span class="badge">(13)</span>
+    </li>
+    
+</ul>
+    </section>
+
+    
+    <section class="widget">
+        <h3 class="widget-hd"><strong>热门标签</strong></h3>
+        <!-- 文章标签 -->
+<div class="widget-bd tag-wrap">
+  
+    <a class="tag-item" href="/tags/react/" title="react">react (3)</a>
+  
+    <a class="tag-item" href="/tags/nodeJS/" title="nodeJS">nodeJS (1)</a>
+  
+    <a class="tag-item" href="/tags/js/" title="js">js (3)</a>
+  
+    <a class="tag-item" href="/tags/WebGL/" title="WebGL">WebGL (5)</a>
+  
+    <a class="tag-item" href="/tags/Git/" title="Git">Git (1)</a>
+  
+</div>
+    </section>
+    
+
+    
+
+    
+    <!-- 友情链接 -->
+    <section class="widget">
+        <h3 class="widget-hd"><strong>友情链接</strong></h3>
+        <!-- 文章分类 -->
+<ul class="widget-bd">
+    
+        <li>
+            <a href="https://jdc.jd.com" target="_blank" title="京东设计中心">JDC</a>
+        </li>
+    
+</ul>
+    </section>
+    
+</aside>
+<!-- / 侧栏部分 -->
+    </div>
+
+    <!-- 博客底部 -->
+    <footer class="footer">
+    &copy;
+    
+        2016-2018
+    
+
+    <a href="/">Leo's Knowledge Store</a>
+</footer>
+<div class="back-to-top" id="JELON__backToTop" title="返回顶部">返回顶部</div>
+
+    <!--博客js脚本 -->
+    <!-- 这里放网站js脚本 -->
+<script src="/js/main.js"></script>
+</body>
+</html>

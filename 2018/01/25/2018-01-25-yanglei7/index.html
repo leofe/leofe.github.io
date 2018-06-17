@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8" >
     <meta name="baidu-site-verification" content="dIcXMeY8Ya" />
     
-    <title>留言 | LEOFE</title>
+    <title>React-图片背景被键盘挤压解决方案 | LEOFE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" >
     <meta name="keywords" content="Leo, 前端, Web, 生活心得, 前端开发" >
     <meta name="description" content="知识杂货店" >
@@ -46,15 +46,15 @@
         <div class="dropnav icon-paragraph-justify" id="JELON__btnDropNav"></div>
         <ul class="menu hidden" id="JELON__menu">
             
-            <li rel="/comment/index.html" class="item ">
+            <li rel="/2018/01/25/2018-01-25-yanglei7/index.html" class="item ">
                 <a href="/" title="首页" class="icon-home">&nbsp;首页</a>
             </li>
             
-            <li rel="/comment/index.html" class="item ">
+            <li rel="/2018/01/25/2018-01-25-yanglei7/index.html" class="item ">
                 <a href="/about/" title="关于" class="icon-about">&nbsp;关于</a>
             </li>
             
-            <li rel="/comment/index.html" class="item current">
+            <li rel="/2018/01/25/2018-01-25-yanglei7/index.html" class="item ">
                 <a href="/comment/" title="留言" class="icon-comment">&nbsp;留言</a>
             </li>
             
@@ -97,45 +97,84 @@
     <div class="container body clearfix">
         <section class="content">
             <div class="content-main widget">
-                <!-- 独立页面 -->
+                <!-- 文章页 -->
+<!-- 文章 -->
 <article class="post article">
     <header class="text-center">
-        <h4 class="post-title"><a href="javascript: void(0);">留言</a></h4>
+        <h3 class="post-title"><span>React-图片背景被键盘挤压解决方案</span></h3>
     </header>
+    <p class="post-meta text-center">
+        leo 发表于
+        <time datetime="2018-01-24T16:00:00.000Z">2018-01-25</time>
+    </p>
     <div class="post-content">
-        
-            <!-- 自定义留言页 -->
-<style>
-  .pay-img {
-    display: inline-block;
-    width: 258px;
-    border: 1px solid #eee; 
-    padding: 0; border-radius: 3px; 
-    margin: 0 30px;
-    box-shadow: 0 0 10px 5px rgba(200,200,200,.3);
-    transition: .5s all ease-in;
-  }
-  .img {
-    width: 258px;
-  }
-  .pay-img:hover {
-    transform:  scale(1.1, 1.1);
-  }
-</style>
-<div class="text-center">
-  <div class='pay-img'>
-      <img class='img' src="/img/alipay.jpg">
+        <h2 id="场景复现"><a href="#场景复现" class="headerlink" title="场景复现"></a>场景复现</h2><p>当背景使用background-image来设置时，Android中会出现如下事情：</p>
+<p><img src="/assets/img/yanglei7-bug1.png" alt="没有键盘时"></p>
+<h3 id="什么情况，背景图怎么变小了？"><a href="#什么情况，背景图怎么变小了？" class="headerlink" title="什么情况，背景图怎么变小了？"></a>什么情况，背景图怎么变小了？</h3><p>是的，在Android中会存在这个问题，IOS中图片是不会被键盘挤压的。来看看解决办法吧。</p>
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p><strong>在界面初始化进来时，对设置背景层的容器进行高度设置，是的，需要动态设置容器高度来保证图片不会被挤压</strong><br>这个问题是在开发React项目时发现的，所以一下会大概写出React中解决方案。</p>
+<h2 id="具体解决步骤"><a href="#具体解决步骤" class="headerlink" title="具体解决步骤"></a>具体解决步骤</h2><p>首先，在constructor中声明一个height。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">constructor(props) &#123;</span><br><span class="line">    super(props);</span><br><span class="line">    this.height = 0;</span><br><span class="line">&#125;</span><br><span class="line">&#123;% endhighlight%&#125;</span><br><span class="line"></span><br><span class="line">第二步，在对应容器中添加style的绑定</span><br></pre></td></tr></table></figure></p>
+<p>render() {<br>    return (<div classname="login-bg red" style="{" {minheight:this.height}="" }=""></div>);<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">第三步：在渲染前获取屏幕高度，并设置height的值</span><br></pre></td></tr></table></figure></p>
+<p>componentWillMount() {<br>    this.height = window.screen.height;<br>}<br><code>`</code></p>
+<p><strong>大功告成，来看看最终效果吧</strong></p>
+<p><img src="/assets/img/yanglei7-bug2.jpg" alt="正确的情况"></p>
+
+    </div>
+    <p class="post-meta">
+        <span class="post-cat">分类：
+            <a class="cat-link" href="/categories/技术仓库/">技术仓库</a>
+        </span>
+        <span class="post-tags">
+            标签：
+            
+    
+        <a href="/tags/react/" title="react">react</a>
+    
+
+        </span>
+    </p>
+</article>
+<!-- 分享按钮 -->
+
+  <div class="article-share clearfix text-center">
+    <div class="share-area">
+      <span class="share-txt">分享到：</span>
+      <a href="javascript: window.open('http://service.weibo.com/share/share.php?url=' + encodeURIComponent(location.href) + '&title=' + document.title + '&language=zh_cn');" class="share-icon weibo"></a>
+      <a href="javascript: alert('请复制链接到微信并发送');" class="share-icon wechat"></a>
+      <a href="javascript: window.open('http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + encodeURIComponent(location.href) + '&title=' + document.title);" class="share-icon qqzone"></a>
+      <a href="javascript: window.open('http://connect.qq.com/widget/shareqq/index.html?url=' + encodeURIComponent(location.href) + '&desc=Jelon个人博客&title=' + document.title + '&callback=' + encodeURIComponent(location.href));" class="share-icon qq"></a>
+      <a href="javascript: window.open('http://shuo.douban.com/!service/share?href=' + encodeURIComponent(location.href) + '&name=' + document.title + '&text=' + document.title);" class="share-icon douban"></a>
+    </div>
   </div>
-  <div class='pay-img'>
-      <img class='img' src="/img/wechat_pay.jpg">
-  </div>
+
+
+<!-- 上一篇/下一篇 -->
+
+<div class="article-nav clearfix">
+    
+    <span class="prev fl">
+        上一篇<br >
+        <a href="/2018/02/05/2018-02-05-yanglei8/">
+            
+                WebGL第三课-着色器编程
+            
+        </a>
+    </span>
+    
+
+    
+    <span class="next fr">
+        下一篇<br >
+        <a href="/2018/01/24/2018-01-24-yanglei6/">
+            
+                WebGL第二课-着色器使用
+            
+        </a>
+    </span>
+    
 </div>
 
-<p class="text-center">
-  如果觉得博客对您有用，欢迎微信赞赏
-</p>
+<!-- 文章评论 -->
 
-  
   <script src="/js/comment.js"></script>
   <div id="comments" class="comment">
     <!--
@@ -204,7 +243,7 @@
   <script>
   JELON.Comment({
     container: 'comments',
-    label: '',
+    label: '2018-01-25-yanglei7',
     owner: 'leofe',
     repo: 'leofe.github.io',
     clientId: 'c5f228f544d943181242',
@@ -213,11 +252,6 @@
   </script>
 
 
-
-
-        
-    </div>
-</article>
             </div>
 
         </section>

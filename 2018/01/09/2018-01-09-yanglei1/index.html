@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8" >
     <meta name="baidu-site-verification" content="dIcXMeY8Ya" />
     
-    <title>留言 | LEOFE</title>
+    <title>react组件刷新 | LEOFE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" >
     <meta name="keywords" content="Leo, 前端, Web, 生活心得, 前端开发" >
     <meta name="description" content="知识杂货店" >
@@ -46,15 +46,15 @@
         <div class="dropnav icon-paragraph-justify" id="JELON__btnDropNav"></div>
         <ul class="menu hidden" id="JELON__menu">
             
-            <li rel="/comment/index.html" class="item ">
+            <li rel="/2018/01/09/2018-01-09-yanglei1/index.html" class="item ">
                 <a href="/" title="首页" class="icon-home">&nbsp;首页</a>
             </li>
             
-            <li rel="/comment/index.html" class="item ">
+            <li rel="/2018/01/09/2018-01-09-yanglei1/index.html" class="item ">
                 <a href="/about/" title="关于" class="icon-about">&nbsp;关于</a>
             </li>
             
-            <li rel="/comment/index.html" class="item current">
+            <li rel="/2018/01/09/2018-01-09-yanglei1/index.html" class="item ">
                 <a href="/comment/" title="留言" class="icon-comment">&nbsp;留言</a>
             </li>
             
@@ -97,45 +97,83 @@
     <div class="container body clearfix">
         <section class="content">
             <div class="content-main widget">
-                <!-- 独立页面 -->
+                <!-- 文章页 -->
+<!-- 文章 -->
 <article class="post article">
     <header class="text-center">
-        <h4 class="post-title"><a href="javascript: void(0);">留言</a></h4>
+        <h3 class="post-title"><span>react组件刷新</span></h3>
     </header>
+    <p class="post-meta text-center">
+        leo 发表于
+        <time datetime="2018-01-08T16:00:00.000Z">2018-01-09</time>
+    </p>
     <div class="post-content">
-        
-            <!-- 自定义留言页 -->
-<style>
-  .pay-img {
-    display: inline-block;
-    width: 258px;
-    border: 1px solid #eee; 
-    padding: 0; border-radius: 3px; 
-    margin: 0 30px;
-    box-shadow: 0 0 10px 5px rgba(200,200,200,.3);
-    transition: .5s all ease-in;
-  }
-  .img {
-    width: 258px;
-  }
-  .pay-img:hover {
-    transform:  scale(1.1, 1.1);
-  }
-</style>
-<div class="text-center">
-  <div class='pay-img'>
-      <img class='img' src="/img/alipay.jpg">
+        <h3 id="react组件数据刷新"><a href="#react组件数据刷新" class="headerlink" title="react组件数据刷新"></a>react组件数据刷新</h3><p>当数据卸载react的state中时，直接调用this.state.XX来触发自动渲染。</p>
+<h4 id="此操作方式无法触发div内部数据变化"><a href="#此操作方式无法触发div内部数据变化" class="headerlink" title="此操作方式无法触发div内部数据变化"></a>此操作方式无法触发div内部数据变化</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Index extends React.Component &#123;</span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">        super(props);</span><br><span class="line">        this.state = &#123;</span><br><span class="line">            code: &apos;&apos;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    changecode() &#123;</span><br><span class="line">        this.state.code = &apos;2&apos;</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        return &lt;div&gt;&#123;this.state.code&#125;&lt;/div&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解决以上绑定问题有一下2中解决方案：</p>
+<ul>
+<li><p>数据不存在state中，因为state是react中一个默认携带的数据，代码修改如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class Index extends React.Component &#123;</span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">        super(props);</span><br><span class="line">        this.code = &apos;&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    changecode() &#123;</span><br><span class="line">        this.code = &apos;2&apos;</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        return &lt;div&gt;&#123;this.code&#125;&lt;/div&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>另外一种方法是使用setState来改变state的值，才可以重新渲染，代码改动如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class Index extends React.Component &#123;</span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">        super(props);</span><br><span class="line">        this.state = &#123;</span><br><span class="line">            code: &apos;&apos;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    changecode() &#123;</span><br><span class="line">        this.setState(&#123;</span><br><span class="line">            code: 1</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        return &lt;div&gt;&#123;this.state.code&#125;&lt;/div&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>以上2种方法就可以动态更新data数据了。</p>
+
+    </div>
+    <p class="post-meta">
+        <span class="post-cat">分类：
+            <a class="cat-link" href="/categories/技术仓库/">技术仓库</a>
+        </span>
+        <span class="post-tags">
+            标签：
+            
+    
+        <a href="/tags/react/" title="react">react</a>
+    
+
+        </span>
+    </p>
+</article>
+<!-- 分享按钮 -->
+
+  <div class="article-share clearfix text-center">
+    <div class="share-area">
+      <span class="share-txt">分享到：</span>
+      <a href="javascript: window.open('http://service.weibo.com/share/share.php?url=' + encodeURIComponent(location.href) + '&title=' + document.title + '&language=zh_cn');" class="share-icon weibo"></a>
+      <a href="javascript: alert('请复制链接到微信并发送');" class="share-icon wechat"></a>
+      <a href="javascript: window.open('http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + encodeURIComponent(location.href) + '&title=' + document.title);" class="share-icon qqzone"></a>
+      <a href="javascript: window.open('http://connect.qq.com/widget/shareqq/index.html?url=' + encodeURIComponent(location.href) + '&desc=Jelon个人博客&title=' + document.title + '&callback=' + encodeURIComponent(location.href));" class="share-icon qq"></a>
+      <a href="javascript: window.open('http://shuo.douban.com/!service/share?href=' + encodeURIComponent(location.href) + '&name=' + document.title + '&text=' + document.title);" class="share-icon douban"></a>
+    </div>
   </div>
-  <div class='pay-img'>
-      <img class='img' src="/img/wechat_pay.jpg">
-  </div>
+
+
+<!-- 上一篇/下一篇 -->
+
+<div class="article-nav clearfix">
+    
+    <span class="prev fl">
+        上一篇<br >
+        <a href="/2018/01/09/2018-01-09-yanglei2/">
+            
+                react组件原有属性写法
+            
+        </a>
+    </span>
+    
+
+    
+    <span class="next fr">
+        下一篇<br >
+        <a href="javascript: void(0);">没有下一篇了</a>
+    </span>
+    
 </div>
 
-<p class="text-center">
-  如果觉得博客对您有用，欢迎微信赞赏
-</p>
+<!-- 文章评论 -->
 
-  
   <script src="/js/comment.js"></script>
   <div id="comments" class="comment">
     <!--
@@ -204,7 +242,7 @@
   <script>
   JELON.Comment({
     container: 'comments',
-    label: '',
+    label: '2018-01-09-yanglei1',
     owner: 'leofe',
     repo: 'leofe.github.io',
     clientId: 'c5f228f544d943181242',
@@ -213,11 +251,6 @@
   </script>
 
 
-
-
-        
-    </div>
-</article>
             </div>
 
         </section>

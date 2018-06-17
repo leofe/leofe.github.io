@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" >
+    <meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8" >
+    <meta name="baidu-site-verification" content="dIcXMeY8Ya" />
+    
+    <title>WebGL第三课-着色器编程 | LEOFE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" >
+    <meta name="keywords" content="Leo, 前端, Web, 生活心得, 前端开发" >
+    <meta name="description" content="知识杂货店" >
+
+    
+    <link rel="alternative" href="/atom.xml" title="LEOFE" type="application/atom+xml" >
+    
+    
+    <link rel="shortcut icon" href="/favicon.ico" >
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <!--[if lt IE 9]>
+    <script src="/js/html5.js"></script>
+    <![endif]-->
+    
+
+</head>
+
+<body class="home">
+    <!--[if lt IE 9]>
+    <div class="browsehappy">
+        当前网页 <strong>不支持</strong>
+        你正在使用的浏览器. 为了正常的访问, 请 <a href="http://browsehappy.com/">升级你的浏览器</a>.
+    </div>
+    <![endif]-->
+
+    <!-- 博客头部 -->
+    <header class="header">
+    <section class="container header-main">
+        <div class="logo">
+            <a href="/">
+                <div class="cover">
+                    <span class="name">LEOFE</span>
+                    <span class="description">知识杂货店</span>
+                </div>
+            </a>
+        </div>
+        <div class="dropnav icon-paragraph-justify" id="JELON__btnDropNav"></div>
+        <ul class="menu hidden" id="JELON__menu">
+            
+            <li rel="/2018/02/05/2018-02-05-yanglei8/index.html" class="item ">
+                <a href="/" title="首页" class="icon-home">&nbsp;首页</a>
+            </li>
+            
+            <li rel="/2018/02/05/2018-02-05-yanglei8/index.html" class="item ">
+                <a href="/about/" title="关于" class="icon-about">&nbsp;关于</a>
+            </li>
+            
+            <li rel="/2018/02/05/2018-02-05-yanglei8/index.html" class="item ">
+                <a href="/comment/" title="留言" class="icon-comment">&nbsp;留言</a>
+            </li>
+            
+        </ul>
+        <div class="profile clearfix">
+            <div class="feeds fl">
+                
+                
+                <p class="links">
+                    
+                        <a href="https://github.com/codeSnipe" target="_blank">Github</a>
+                        |
+                    
+                        <a href="https://www.jianshu.com/u/e7ff8dafa3c3" target="_blank">简书</a>
+                        
+                    
+                </p>
+                <p class="sns">
+                    
+                    <a href="javascript: void(0);" class="wechat">
+                        <b>■</b>
+                        微信号
+                        <span class="popover">
+                            <img src="/img/wechat.jpg" width="120" height="120" alt="我的微信订阅号">
+                            <i class="arrow"></i>
+                        </span>
+                    </a>
+                </p>
+                
+            </div>
+            <div class="avatar fr">
+                <img src="/img/leofe.jpg" alt="avatar" title="Leo" >
+            </div>
+        </div>
+    </section>
+</header>
+
+
+    <!-- 博客正文 -->
+    <div class="container body clearfix">
+        <section class="content">
+            <div class="content-main widget">
+                <!-- 文章页 -->
+<!-- 文章 -->
+<article class="post article">
+    <header class="text-center">
+        <h3 class="post-title"><span>WebGL第三课-着色器编程</span></h3>
+    </header>
+    <p class="post-meta text-center">
+        leo 发表于
+        <time datetime="2018-02-04T16:00:00.000Z">2018-02-05</time>
+    </p>
+    <div class="post-content">
+        <h2 id="着色器编程"><a href="#着色器编程" class="headerlink" title="着色器编程"></a>着色器编程</h2><p>前2课已经将了如果使用顶点着色器以及片元着色器来绘制点，但是真实情况下是不会存在固定颜色与尺寸位置的，如何对他们进行编码呢?</p>
+<h2 id="代码顺序"><a href="#代码顺序" class="headerlink" title="代码顺序"></a>代码顺序</h2><p>在对着色器编程时，需要先将program连接到WebGL中，以及需要program使用之后才可编辑。</p>
+<h4 id="介绍2个变量"><a href="#介绍2个变量" class="headerlink" title="介绍2个变量"></a>介绍2个变量</h4><ul>
+<li>attribute： 用于顶点点着色器（<strong>Vertex Shader</strong>）传值时使用。</li>
+<li>uniform：可用于顶点着色器（<strong>Vertex Shader</strong>）与片元着色器（<strong>Fragment Shader</strong>）使用。</li>
+</ul>
+<h2 id="将顶点动态化"><a href="#将顶点动态化" class="headerlink" title="将顶点动态化"></a>将顶点动态化</h2><p>首先，先在顶点着色器代码中，将对应的vec4的固定值变成变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var VSHADER_SOURCE = </span><br><span class="line">  &apos;attribute vec4 a_Position;\n&apos; +</span><br><span class="line">  &apos;void main() &#123;\n&apos; +</span><br><span class="line">    &apos;  gl_Position = a_Position;\n&apos; +</span><br><span class="line">    &apos;  gl_PointSize = 10.0;\n&apos; + </span><br><span class="line">  &apos;&#125;\n&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>位置参数使用了<strong>attribute</strong>变量来承载。这样WebGL对象就可以获取到对应的存储位置，就可以去动态改变GLSL变量了。</p>
+<p>使用WebGL来获取对应参数的存储地址地址<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//返回对应的地址信息</span><br><span class="line">var aPosition = gl.getAttribLocation(gl.program, &apos;a_Position&apos;);</span><br><span class="line">//判断地址是否获取成功</span><br><span class="line">if(aPosition &lt; 0) &#123;</span><br><span class="line">    console.log(&apos;没有获取到对应position&apos;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后给变量赋值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gl.vertexAttrib3f(aPosition, 1.0, 1.0, 0.0);</span><br><span class="line">//或者使用Float32Array来传参</span><br><span class="line">var p = new Float32Array([1.0, 1.0, 1.0]);</span><br><span class="line">gl.vertexAttrib3fv(aPosition, p);</span><br></pre></td></tr></table></figure></p>
+<pre><code>注意：vertexAttrib3fv这个函数是典型的GLSL语法命名规范，
+vertexAttrib函数功能，
+3：对应需要传3个参数，或者是几维向量，
+f：表示参数是float类型，
+v：表示传如的为一个vector变量。
+</code></pre><p>也就是说对应设置顶点着色器的函数有一下几种功能，<strong><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/WebGLRenderingContext/vertexAttrib">参考文档</a></strong>：</p>
+<ul>
+<li>void gl.vertexAttrib1f(index, v0);</li>
+<li>void gl.vertexAttrib2f(index, v0, v1);</li>
+<li>void gl.vertexAttrib3f(index, v0, v1, v2);</li>
+<li><p>void gl.vertexAttrib4f(index, v0, v1, v2, v3);</p>
+</li>
+<li><p>void gl.vertexAttrib1fv(index, value);</p>
+</li>
+<li>void gl.vertexAttrib2fv(index, value);</li>
+<li>void gl.vertexAttrib3fv(index, value);</li>
+<li>void gl.vertexAttrib4fv(index, value);</li>
+</ul>
+<p>同样操作可以如下修改PointSize：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//着色器中添加变量</span><br><span class="line">var VSHADER_SOURCE = </span><br><span class="line">  &apos;attribute vec4 a_Position;\n&apos; +</span><br><span class="line">  &apos;attribute float a_PointSize;\n&apos; +</span><br><span class="line">  &apos;void main() &#123;\n&apos; +</span><br><span class="line">    &apos;  gl_Position = a_Position;\n&apos; +</span><br><span class="line">    &apos;  gl_PointSize = a_PointSize;\n&apos; + </span><br><span class="line">  &apos;&#125;\n&apos;;</span><br><span class="line">var aPointSize = gl.getAttribLocation(gl.program, &apos;a_PointSize&apos;);</span><br><span class="line">gl.vertexAttrib1f(aPointSize, 10.0);</span><br></pre></td></tr></table></figure></p>
+<h2 id="片元着色器编程"><a href="#片元着色器编程" class="headerlink" title="片元着色器编程"></a>片元着色器编程</h2><p>对片元着色器变成需要使用uniform变量来承载。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> var FSHADER_SOURCE =</span><br><span class="line">&apos;precision mediump float;\n&apos;+</span><br><span class="line">&apos;uniform vec4 vColor;\n&apos;+</span><br><span class="line">&apos;void main() &#123;\n&apos; +</span><br><span class="line">&apos;  gl_FragColor = vColor;\n&apos; + // Set the point color</span><br><span class="line">&apos;&#125;\n&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>获取片元着色器变量地址<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var vColor = gl.getUniformLocation(gl.program, &apos;vColor&apos;);</span><br></pre></td></tr></table></figure></p>
+<p>给变量赋值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gl.uniform4f(vColor, 1.0, 0.0, 0.0, 1.0);</span><br><span class="line">//或使用Float32Array来传参</span><br><span class="line">var color = new Float32Array([1.0, 0.0, 0.0, 1.0]);</span><br><span class="line">gl.uniform4fv(vColor,color)</span><br></pre></td></tr></table></figure></p>
+<pre><code>注意：uniform3fv这个函数是典型的GLSL语法命名规范，
+uniform3fv函数功能，
+3：对应需要传3个参数，或者是几维向量，
+f：表示参数是float类型，
+u：表示参数是Uint32Array类型，
+i：表示参数是integer类型，
+ui：表示参数是unsigned integer类型，
+v：表示传如的为一个vector变量。
+</code></pre><p>顶点着色器对应函数，<strong><a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/API/WebGL2RenderingContext/uniform">参考文档</a></strong></p>
+<ul>
+<li>void gl.uniform1ui(location, v0); </li>
+<li>void gl.uniform2ui(location, v0, v1); </li>
+<li>void gl.uniform3ui(location, v0, v1, v2); </li>
+<li>void gl.uniform4ui(location, v0, v1, v2, v3); </li>
+<li>void gl.uniform1fv(location, data, optional srcOffset, optional srcLength); </li>
+<li>void gl.uniform2fv(location, data, optional srcOffset, optional srcLength); </li>
+<li>void gl.uniform3fv(location, data, optional srcOffset, optional srcLength);</li>
+<li>void gl.uniform4fv(location, data, optional srcOffset, optional srcLength); </li>
+<li>void gl.uniform1iv(location, data, optional srcOffset, optional srcLength); </li>
+<li>void gl.uniform2iv(location, data, optional srcOffset, optional srcLength);</li>
+<li>void gl.uniform3iv(location, data, optional srcOffset, optional srcLength); </li>
+<li>void gl.uniform4iv(location, data, optional srcOffset, optional srcLength); </li>
+<li>void gl.uniform1uiv(location, data, optional srcOffset, optional srcLength);</li>
+<li>void gl.uniform2uiv(location, data, optional srcOffset, optional srcLength);</li>
+<li>void gl.uniform3uiv(location, data, optional srcOffset, optional srcLength); </li>
+<li>void gl.uniform4uiv(location, data, optional srcOffset, optional srcLength);</li>
+</ul>
+<blockquote>
+<p>着色器中的代码<strong>precision mediump float;</strong>表示的意思是着色器中配置的float对象会占用中等尺寸内存。<br>具体包含的尺寸：</p>
+<ul>
+<li>highp for vertex positions,</li>
+<li>mediump for texture coordinates,</li>
+<li>lowp for colors.</li>
+</ul>
+</blockquote>
+<p>如果不设置此参数会报错：<br><img src="/assets/img/yanglei8.jpg" alt="我是图片的Alt"></p>
+<p>最终动态效果图：<br><img src="/assets/img/yanglei8-1.png" alt="我是图片的Alt"></p>
+<hr>
+<h4 id="Webgl课程列表"><a href="#Webgl课程列表" class="headerlink" title="Webgl课程列表"></a>Webgl课程列表</h4><ul>
+<li><a target="_blank" href="/yanglei/2018/01/24/yanglei5.html">[WebGL第一课-基础介绍]</a></li>
+<li><a target="_blank" href="/yanglei/2018/01/24/yanglei6.html">[WebGL第二课-着色器使用]</a></li>
+<li><a target="_blank" href="/yanglei/2018/01/24/yanglei8.html">[WebGL第三课-着色器编程]</a></li>
+<li><a target="_blank" href="/yanglei/2018/01/24/yanglei9.html">[WebGL第四课-图像缓存区使用]</a></li>
+</ul>
+
+    </div>
+    <p class="post-meta">
+        <span class="post-cat">分类：
+            <a class="cat-link" href="/categories/技术仓库/">技术仓库</a>
+        </span>
+        <span class="post-tags">
+            标签：
+            
+    
+        <a href="/tags/WebGL/" title="WebGL">WebGL</a>
+    
+
+        </span>
+    </p>
+</article>
+<!-- 分享按钮 -->
+
+  <div class="article-share clearfix text-center">
+    <div class="share-area">
+      <span class="share-txt">分享到：</span>
+      <a href="javascript: window.open('http://service.weibo.com/share/share.php?url=' + encodeURIComponent(location.href) + '&title=' + document.title + '&language=zh_cn');" class="share-icon weibo"></a>
+      <a href="javascript: alert('请复制链接到微信并发送');" class="share-icon wechat"></a>
+      <a href="javascript: window.open('http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + encodeURIComponent(location.href) + '&title=' + document.title);" class="share-icon qqzone"></a>
+      <a href="javascript: window.open('http://connect.qq.com/widget/shareqq/index.html?url=' + encodeURIComponent(location.href) + '&desc=Jelon个人博客&title=' + document.title + '&callback=' + encodeURIComponent(location.href));" class="share-icon qq"></a>
+      <a href="javascript: window.open('http://shuo.douban.com/!service/share?href=' + encodeURIComponent(location.href) + '&name=' + document.title + '&text=' + document.title);" class="share-icon douban"></a>
+    </div>
+  </div>
+
+
+<!-- 上一篇/下一篇 -->
+
+<div class="article-nav clearfix">
+    
+    <span class="prev fl">
+        上一篇<br >
+        <a href="/2018/03/13/2018-03-13-yanglei9/">
+            
+                WebGL第四课-图像缓存区使用
+            
+        </a>
+    </span>
+    
+
+    
+    <span class="next fr">
+        下一篇<br >
+        <a href="/2018/01/25/2018-01-25-yanglei7/">
+            
+                React-图片背景被键盘挤压解决方案
+            
+        </a>
+    </span>
+    
+</div>
+
+<!-- 文章评论 -->
+
+  <script src="/js/comment.js"></script>
+  <div id="comments" class="comment">
+    <!--
+    <div class="sign-bar">
+      GitHub 已登录!
+      <span class="sign-link">登出</span>
+    </div>
+    <section class="box">
+      <div class="com-avatar"><img src="/img/jelon.jpg" alt="avatar"></div>
+      <div class="com-text">
+        <div class="main">
+          <textarea class="text-area-edited show" placeholder="欢迎评论！"></textarea>
+          <div class="text-area-preview"></div>
+        </div>
+        <div class="switch">
+          <div class="switch-item on">编辑</div>
+          <div class="switch-item">预览</div>
+        </div>
+        <div class="button">提交</div>
+      </div>
+    </section>
+    <section class="tips">注：评论支持 markdown 语法！</section>
+    <section class="list-wrap">
+      <ul class="list">
+        <li>
+          <div class="user-avatar">
+            <a href="/">
+              <img src="/img/jelon.jpg" alt="user-avatar">
+            </a>
+          </div>
+          <div class="user-comment">
+            <div class="user-comment-header">
+              <span class="post-name">张德龙</span>
+              <span class="post-time">2017年12月12日</span>
+              <span class="like liked">已赞</span>
+              <span class="like-num">2</span>
+            </div>
+            <div class="user-comment-body">333333</div>
+          </div>
+        </li>
+        <li>
+          <div class="user-avatar">
+            <a href="/">
+              <img src="/img/jelon.jpg" alt="user-avatar">
+            </a>
+          </div>
+          <div class="user-comment">
+            <div class="user-comment-header">
+              <span class="post-name">刘德华</span>
+              <span class="post-time">2017年12月12日</span>
+              <span class="like">点赞</span>
+              <span class="like-num">2</span>
+            </div>
+            <div class="user-comment-body">vvvvv</div>
+          </div>
+        </li>
+      </ul>
+      <div class="page-nav">
+        <a href="javascript: void(0);" class="item">1</a>
+        <a href="javascript: void(0);" class="item">2</a>
+        <a href="javascript: void(0);" class="item current">3</a>
+      </div>
+    </section>
+    -->
+  </div>
+  <script>
+  JELON.Comment({
+    container: 'comments',
+    label: '2018-02-05-yanglei8',
+    owner: 'leofe',
+    repo: 'leofe.github.io',
+    clientId: 'c5f228f544d943181242',
+    clientSecret: 'df3363ed741c2d6768baacf3cd0055474f3432d7'
+  });
+  </script>
+
+
+            </div>
+
+        </section>
+        <!-- 侧栏部分 -->
+<aside class="sidebar">
+    <section class="widget">
+        <h3 class="widget-hd"><strong>文章分类</strong></h3>
+        <!-- 文章分类 -->
+<ul class="widget-bd">
+    
+    <li>
+        <a href="/categories/技术仓库/">技术仓库</a>
+        <span class="badge">(13)</span>
+    </li>
+    
+</ul>
+    </section>
+
+    
+    <section class="widget">
+        <h3 class="widget-hd"><strong>热门标签</strong></h3>
+        <!-- 文章标签 -->
+<div class="widget-bd tag-wrap">
+  
+    <a class="tag-item" href="/tags/react/" title="react">react (3)</a>
+  
+    <a class="tag-item" href="/tags/nodeJS/" title="nodeJS">nodeJS (1)</a>
+  
+    <a class="tag-item" href="/tags/js/" title="js">js (3)</a>
+  
+    <a class="tag-item" href="/tags/WebGL/" title="WebGL">WebGL (5)</a>
+  
+    <a class="tag-item" href="/tags/Git/" title="Git">Git (1)</a>
+  
+</div>
+    </section>
+    
+
+    
+
+    
+    <!-- 友情链接 -->
+    <section class="widget">
+        <h3 class="widget-hd"><strong>友情链接</strong></h3>
+        <!-- 文章分类 -->
+<ul class="widget-bd">
+    
+        <li>
+            <a href="https://jdc.jd.com" target="_blank" title="京东设计中心">JDC</a>
+        </li>
+    
+</ul>
+    </section>
+    
+</aside>
+<!-- / 侧栏部分 -->
+    </div>
+
+    <!-- 博客底部 -->
+    <footer class="footer">
+    &copy;
+    
+        2016-2018
+    
+
+    <a href="/">Leo's Knowledge Store</a>
+</footer>
+<div class="back-to-top" id="JELON__backToTop" title="返回顶部">返回顶部</div>
+
+    <!--博客js脚本 -->
+    <!-- 这里放网站js脚本 -->
+<script src="/js/main.js"></script>
+</body>
+</html>
