@@ -1,6 +1,6 @@
 ---
 title: node下载功能开发
-date: {{ date }}
+date: 2018-01-16
 author: leo
 tags: nodeJS
 categories:

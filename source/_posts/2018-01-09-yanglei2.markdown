@@ -1,6 +1,6 @@
 ---
 title: react组件原有属性写法
-date: {{ date }}
+date: 2018-01-09
 author: leo
 tags: react
 categories:

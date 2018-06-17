@@ -1,6 +1,6 @@
 ---
 title: react组件刷新
-date: {{ date }}
+date: 2018-01-09
 author: leo
 tags: react
 categories:

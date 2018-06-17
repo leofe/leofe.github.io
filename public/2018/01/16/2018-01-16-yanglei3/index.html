@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" >
+    <meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8" >
+    <meta name="baidu-site-verification" content="dIcXMeY8Ya" />
+    
+    <title>node下载功能开发 | LEOFE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" >
+    <meta name="keywords" content="Leo, 前端, Web, 生活心得, 前端开发" >
+    <meta name="description" content="知识杂货店" >
+
+    
+    <link rel="alternative" href="/atom.xml" title="LEOFE" type="application/atom+xml" >
+    
+    
+    <link rel="shortcut icon" href="/favicon.ico" >
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <!--[if lt IE 9]>
+    <script src="/js/html5.js"></script>
+    <![endif]-->
+    
+
+</head>
+
+<body class="home">
+    <!--[if lt IE 9]>
+    <div class="browsehappy">
+        当前网页 <strong>不支持</strong>
+        你正在使用的浏览器. 为了正常的访问, 请 <a href="http://browsehappy.com/">升级你的浏览器</a>.
+    </div>
+    <![endif]-->
+
+    <!-- 博客头部 -->
+    <header class="header">
+    <section class="container header-main">
+        <div class="logo">
+            <a href="/">
+                <div class="cover">
+                    <span class="name">LEOFE</span>
+                    <span class="description">知识杂货店</span>
+                </div>
+            </a>
+        </div>
+        <div class="dropnav icon-paragraph-justify" id="JELON__btnDropNav"></div>
+        <ul class="menu hidden" id="JELON__menu">
+            
+            <li rel="/2018/01/16/2018-01-16-yanglei3/index.html" class="item ">
+                <a href="/" title="首页" class="icon-home">&nbsp;首页</a>
+            </li>
+            
+            <li rel="/2018/01/16/2018-01-16-yanglei3/index.html" class="item ">
+                <a href="/about/" title="关于" class="icon-about">&nbsp;关于</a>
+            </li>
+            
+            <li rel="/2018/01/16/2018-01-16-yanglei3/index.html" class="item ">
+                <a href="/comment/" title="留言" class="icon-comment">&nbsp;留言</a>
+            </li>
+            
+        </ul>
+        <div class="profile clearfix">
+            <div class="feeds fl">
+                
+                
+                <p class="links">
+                    
+                        <a href="https://github.com/codeSnipe" target="_blank">Github</a>
+                        |
+                    
+                        <a href="https://www.jianshu.com/u/e7ff8dafa3c3" target="_blank">简书</a>
+                        
+                    
+                </p>
+                <p class="sns">
+                    
+                    <a href="javascript: void(0);" class="wechat">
+                        <b>■</b>
+                        微信号
+                        <span class="popover">
+                            <img src="/img/wechat.jpg" width="120" height="120" alt="我的微信订阅号">
+                            <i class="arrow"></i>
+                        </span>
+                    </a>
+                </p>
+                
+            </div>
+            <div class="avatar fr">
+                <img src="/img/leofe.jpg" alt="avatar" title="Leo" >
+            </div>
+        </div>
+    </section>
+</header>
+
+
+    <!-- 博客正文 -->
+    <div class="container body clearfix">
+        <section class="content">
+            <div class="content-main widget">
+                <!-- 文章页 -->
+<!-- 文章 -->
+<article class="post article">
+    <header class="text-center">
+        <h3 class="post-title"><span>node下载功能开发</span></h3>
+    </header>
+    <p class="post-meta text-center">
+        leo 发表于
+        <time datetime="2018-01-15T16:00:00.000Z">2018-01-16</time>
+    </p>
+    <div class="post-content">
+        <h3 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h3><p>使用nodejs开发服务端时，可能会有下载功能需求，而且nodeJS也有丰富的组件，因项目中使用的是<a href="https://www.npmjs.com/package/archiver" target="_blank" rel="noopener">Archiver</a>插件，以下就简单的讲讲此插件的使用方式，此插件github上星不少，但是文档很粗糙。</p>
+<h3 id="插件基本用法"><a href="#插件基本用法" class="headerlink" title="插件基本用法"></a>插件基本用法</h3><p>插件基本用法文档中已经有了如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var archiver = require(&apos;archiver&apos;);</span><br><span class="line">var fs = require(&apos;fs&apos;);</span><br><span class="line">//创建一个archiver对象</span><br><span class="line">var archive = archiver(&apos;zip&apos;, &#123;</span><br><span class="line">  zlib: &#123; level: 9 &#125; // Sets the compression level.</span><br><span class="line">&#125;);</span><br><span class="line">//创建一个压缩包生成的输出路径,archiver会把数据流输入到此文件中</span><br><span class="line">var output = fs.createWriteStream(__dirname + &apos;/example.zip&apos;);</span><br><span class="line">//添加要压缩的文件，使用append，第一个参数可以为文件的数据流，也可以是一段字符串，第二个参数有多个配置，以下只使用了name，name为压缩完成后的文件名，注意，此处可以输出路径如: dir/b.js</span><br><span class="line">archive.append(&apos;我是文件内容&apos;,&#123;name: &apos;1.txt&apos;&#125;);</span><br><span class="line">//如果添加的是一个文件路径名，可使用如下方法</span><br><span class="line">archive.file(&apos;file1.txt&apos;, &#123; name: &apos;file4.txt&apos; &#125;);</span><br><span class="line">//需要压缩文件通过管道输出到output中，来生成压缩包。</span><br><span class="line">archive.pipe(output);</span><br><span class="line">//结束archive对象生命周期</span><br><span class="line">archive.finalize();</span><br></pre></td></tr></table></figure></p>
+<h3 id="当配合Express使用"><a href="#当配合Express使用" class="headerlink" title="当配合Express使用"></a>当配合Express使用</h3><p>很多情况下可能不只是服务端自己来操作，可能是页面层调用一个接口，然后接口会返回一个压缩包，这种情况要怎么操作呢？<br>页面层的调用方式通常情况下如下（以下以jquery为例）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&#123;</span><br><span class="line">    url:&apos;我是万恶的URL&apos;,</span><br><span class="line">    type: &apos;get&apos;,</span><br><span class="line">    success: function(data) &#123;</span><br><span class="line">        //TODO Success code</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>对应Archiver内部需要配合express如下改造</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">var archiver = require(&apos;archiver&apos;);</span><br><span class="line">var fs = require(&apos;fs&apos;);</span><br><span class="line">var express = require(&apos;express&apos;);</span><br><span class="line">//首先搭建起来一个express服务器</span><br><span class="line">var app = express();</span><br><span class="line">var server = app.listen(80, () =&gt; &#123;</span><br><span class="line">    console.log(`【$&#123;new Date()&#125;】服务器启动!`);</span><br><span class="line">&#125;);</span><br><span class="line">app.use(&apos;/download&apos;, function(req, res, next) &#123;</span><br><span class="line">    //需要给此请求添加类型，此处以zip为例</span><br><span class="line">    res.header(&apos;Content-Type&apos;, &apos;application/zip&apos;);</span><br><span class="line">    if (req.method == &apos;OPTIONS&apos;) &#123;</span><br><span class="line">        res.send(200);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        next();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line">app.get(&apos;/download&apos;, (req, res) =&gt; &#123;</span><br><span class="line">    //创建一个支持GET的接口，</span><br><span class="line">    //压缩对应文件</span><br><span class="line">    var fs = require(&apos;fs&apos;);</span><br><span class="line">    var archive = archiver(&apos;zip&apos;, &#123;</span><br><span class="line">    zlib: &#123; level: 9 &#125; // Sets the compression level.</span><br><span class="line">    &#125;);</span><br><span class="line">    archive.append(&apos;我是文件内容&apos;,&#123;name: &apos;1.txt&apos;&#125;);</span><br><span class="line">    archive.file(&apos;file1.txt&apos;, &#123; name: &apos;file4.txt&apos; &#125;);</span><br><span class="line">    res.attachment(&apos;popui.zip&apos;);</span><br><span class="line">    archive.pipe(res);</span><br><span class="line">    archive.finalize();</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>如果你按照此方写已经编写完成的话，恭喜你，已经完成了80%了，以为此种方式你会发现，压缩包会以数据流的方式在data中存在，你会疑问，此数据流要怎么来转化成zip呢？</p>
+<h3 id="如何转化zip数据流"><a href="#如何转化zip数据流" class="headerlink" title="如何转化zip数据流"></a>如何转化zip数据流</h3><p>其实此处我们只需要更改一下调用方式即可，此前使用的是ajax请求，返回值固然会进入data中，此处是无错的，但是想变成zip就只能望洋兴叹了。<br>可以采用如下方式来操作：</p>
+<ul>
+<li>首先不能使用诸如AJAX的方式来请求。</li>
+<li>第二express不能使用post方式<h4 id="改进方式如下"><a href="#改进方式如下" class="headerlink" title="改进方式如下"></a>改进方式如下</h4></li>
+<li>采用GET方式</li>
+<li>采用href的方式来调用，代码参考下方<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;/download?id=1&quot;&gt;&lt;/a&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>切记只能使用此方式才能直接弹出zip文件的保存界面。</p>
+<p>至此你已经完成了下载功能的开发</p>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><ul>
+<li><a href="https://github.com/archiverjs/node-archiver/blob/master/examples/express.js" target="_blank" rel="noopener">官方express例子</a></li>
+<li><a href="https://stackoverflow.com/questions/20107303/dynamically-create-and-stream-zip-to-client" target="_blank" rel="noopener">StackOverFlow经典答案</a></li>
+</ul>
+
+    </div>
+    <p class="post-meta">
+        <span class="post-cat">分类：
+            <a class="cat-link" href="/categories/技术仓库/">技术仓库</a>
+        </span>
+        <span class="post-tags">
+            标签：
+            
+    
+        <a href="/tags/nodeJS/" title="nodeJS">nodeJS</a>
+    
+
+        </span>
+    </p>
+</article>
+<!-- 分享按钮 -->
+
+  <div class="article-share clearfix text-center">
+    <div class="share-area">
+      <span class="share-txt">分享到：</span>
+      <a href="javascript: window.open('http://service.weibo.com/share/share.php?url=' + encodeURIComponent(location.href) + '&title=' + document.title + '&language=zh_cn');" class="share-icon weibo"></a>
+      <a href="javascript: alert('请复制链接到微信并发送');" class="share-icon wechat"></a>
+      <a href="javascript: window.open('http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + encodeURIComponent(location.href) + '&title=' + document.title);" class="share-icon qqzone"></a>
+      <a href="javascript: window.open('http://connect.qq.com/widget/shareqq/index.html?url=' + encodeURIComponent(location.href) + '&desc=Jelon个人博客&title=' + document.title + '&callback=' + encodeURIComponent(location.href));" class="share-icon qq"></a>
+      <a href="javascript: window.open('http://shuo.douban.com/!service/share?href=' + encodeURIComponent(location.href) + '&name=' + document.title + '&text=' + document.title);" class="share-icon douban"></a>
+    </div>
+  </div>
+
+
+<!-- 上一篇/下一篇 -->
+
+<div class="article-nav clearfix">
+    
+    <span class="prev fl">
+        上一篇<br >
+        <a href="/2018/01/17/2018-01-17-yanglei4/">
+            
+                Seajs模块压缩后引用其他模块无效
+            
+        </a>
+    </span>
+    
+
+    
+    <span class="next fr">
+        下一篇<br >
+        <a href="/2018/01/09/2018-01-09-yanglei2/">
+            
+                react组件原有属性写法
+            
+        </a>
+    </span>
+    
+</div>
+
+<!-- 文章评论 -->
+
+  <script src="/js/comment.js"></script>
+  <div id="comments" class="comment">
+    <!--
+    <div class="sign-bar">
+      GitHub 已登录!
+      <span class="sign-link">登出</span>
+    </div>
+    <section class="box">
+      <div class="com-avatar"><img src="/img/jelon.jpg" alt="avatar"></div>
+      <div class="com-text">
+        <div class="main">
+          <textarea class="text-area-edited show" placeholder="欢迎评论！"></textarea>
+          <div class="text-area-preview"></div>
+        </div>
+        <div class="switch">
+          <div class="switch-item on">编辑</div>
+          <div class="switch-item">预览</div>
+        </div>
+        <div class="button">提交</div>
+      </div>
+    </section>
+    <section class="tips">注：评论支持 markdown 语法！</section>
+    <section class="list-wrap">
+      <ul class="list">
+        <li>
+          <div class="user-avatar">
+            <a href="/">
+              <img src="/img/jelon.jpg" alt="user-avatar">
+            </a>
+          </div>
+          <div class="user-comment">
+            <div class="user-comment-header">
+              <span class="post-name">张德龙</span>
+              <span class="post-time">2017年12月12日</span>
+              <span class="like liked">已赞</span>
+              <span class="like-num">2</span>
+            </div>
+            <div class="user-comment-body">333333</div>
+          </div>
+        </li>
+        <li>
+          <div class="user-avatar">
+            <a href="/">
+              <img src="/img/jelon.jpg" alt="user-avatar">
+            </a>
+          </div>
+          <div class="user-comment">
+            <div class="user-comment-header">
+              <span class="post-name">刘德华</span>
+              <span class="post-time">2017年12月12日</span>
+              <span class="like">点赞</span>
+              <span class="like-num">2</span>
+            </div>
+            <div class="user-comment-body">vvvvv</div>
+          </div>
+        </li>
+      </ul>
+      <div class="page-nav">
+        <a href="javascript: void(0);" class="item">1</a>
+        <a href="javascript: void(0);" class="item">2</a>
+        <a href="javascript: void(0);" class="item current">3</a>
+      </div>
+    </section>
+    -->
+  </div>
+  <script>
+  JELON.Comment({
+    container: 'comments',
+    label: '2018-01-16-yanglei3',
+    owner: 'leofe',
+    repo: 'leofe.github.io',
+    clientId: 'c5f228f544d943181242',
+    clientSecret: 'df3363ed741c2d6768baacf3cd0055474f3432d7'
+  });
+  </script>
+
+
+            </div>
+
+        </section>
+        <!-- 侧栏部分 -->
+<aside class="sidebar">
+    <section class="widget">
+        <h3 class="widget-hd"><strong>文章分类</strong></h3>
+        <!-- 文章分类 -->
+<ul class="widget-bd">
+    
+    <li>
+        <a href="/categories/技术仓库/">技术仓库</a>
+        <span class="badge">(13)</span>
+    </li>
+    
+</ul>
+    </section>
+
+    
+    <section class="widget">
+        <h3 class="widget-hd"><strong>热门标签</strong></h3>
+        <!-- 文章标签 -->
+<div class="widget-bd tag-wrap">
+  
+    <a class="tag-item" href="/tags/react/" title="react">react (3)</a>
+  
+    <a class="tag-item" href="/tags/nodeJS/" title="nodeJS">nodeJS (1)</a>
+  
+    <a class="tag-item" href="/tags/js/" title="js">js (3)</a>
+  
+    <a class="tag-item" href="/tags/WebGL/" title="WebGL">WebGL (5)</a>
+  
+    <a class="tag-item" href="/tags/Git/" title="Git">Git (1)</a>
+  
+</div>
+    </section>
+    
+
+    
+
+    
+    <!-- 友情链接 -->
+    <section class="widget">
+        <h3 class="widget-hd"><strong>友情链接</strong></h3>
+        <!-- 文章分类 -->
+<ul class="widget-bd">
+    
+        <li>
+            <a href="https://jdc.jd.com" target="_blank" title="京东设计中心">JDC</a>
+        </li>
+    
+</ul>
+    </section>
+    
+</aside>
+<!-- / 侧栏部分 -->
+    </div>
+
+    <!-- 博客底部 -->
+    <footer class="footer">
+    &copy;
+    
+        2016-2018
+    
+
+    <a href="/">Leo's Knowledge Store</a>
+</footer>
+<div class="back-to-top" id="JELON__backToTop" title="返回顶部">返回顶部</div>
+
+    <!--博客js脚本 -->
+    <!-- 这里放网站js脚本 -->
+<script src="/js/main.js"></script>
+</body>
+</html>
