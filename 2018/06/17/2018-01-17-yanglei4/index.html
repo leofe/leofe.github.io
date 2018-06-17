@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8" >
     <meta name="baidu-site-verification" content="dIcXMeY8Ya" />
     
-    <title>留言 | LEOFE</title>
+    <title>Seajs模块压缩后引用其他模块无效 | LEOFE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" >
     <meta name="keywords" content="Leo, 前端, Web, 生活心得, 前端开发" >
     <meta name="description" content="知识杂货店" >
@@ -46,19 +46,19 @@
         <div class="dropnav icon-paragraph-justify" id="JELON__btnDropNav"></div>
         <ul class="menu hidden" id="JELON__menu">
             
-            <li rel="/comment/index.html" class="item ">
+            <li rel="/2018/06/17/2018-01-17-yanglei4/index.html" class="item ">
                 <a href="/" title="首页" class="icon-home">&nbsp;首页</a>
             </li>
             
-            <li rel="/comment/index.html" class="item ">
+            <li rel="/2018/06/17/2018-01-17-yanglei4/index.html" class="item ">
                 <a href="/lab/" title="实验室" class="icon-lab">&nbsp;实验室</a>
             </li>
             
-            <li rel="/comment/index.html" class="item ">
+            <li rel="/2018/06/17/2018-01-17-yanglei4/index.html" class="item ">
                 <a href="/about/" title="关于" class="icon-about">&nbsp;关于</a>
             </li>
             
-            <li rel="/comment/index.html" class="item current">
+            <li rel="/2018/06/17/2018-01-17-yanglei4/index.html" class="item ">
                 <a href="/comment/" title="留言" class="icon-comment">&nbsp;留言</a>
             </li>
             
@@ -79,24 +79,92 @@
     <div class="container body clearfix">
         <section class="content">
             <div class="content-main widget">
-                <!-- 独立页面 -->
+                <!-- 文章页 -->
+<!-- 文章 -->
 <article class="post article">
     <header class="text-center">
-        <h4 class="post-title"><a href="javascript: void(0);">留言</a></h4>
+        <h3 class="post-title"><span>Seajs模块压缩后引用其他模块无效</span></h3>
     </header>
+    <p class="post-meta text-center">
+        leo 发表于
+        <time datetime="2018-06-17T04:29:44.039Z">2018-06-17</time>
+    </p>
     <div class="post-content">
-        
-            <!-- 自定义留言页 -->
+        <p>Seajs作为一款业界比较知名的模块加载库，的确为开发带来了很多便利，当然近期通过对seajs的一些操作，让自己又掉进了一个坑中。</p>
+<h3 id="坑的问题"><a href="#坑的问题" class="headerlink" title="坑的问题"></a>坑的问题</h3><p>当seajs的模块正常使用时是无需添加dependencies的，也就是前依赖，因为构建工具一般都会自动添加。</p>
+<p>What？ 不知道什么是前依赖？看看如下代码</p>
+<p>//一下为一个seajs的模块基础部分<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">define(id,[dependencies], function(require, exports, module) &#123;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>以上代码中id为模块ID，dependencies就是前依赖，顾名思义，在执行function时必须会先加载完[]里面的内容。</p>
+<p>默认情况下这个值大家是不需要添加的，因为构建工具会自动添加，不压缩的情况下Seajs也会自动抓取require里面的值，来帮忙首先加载前依赖。</p>
+<h5 id="坑来了"><a href="#坑来了" class="headerlink" title="坑来了"></a>坑来了</h5><p>当你未使用构建工具，并且通过uglify对Seajs模块进行混淆压缩时，代码在调用这个模块时，模块中原本require进来的内容都加载不进来。简言之：报错了。</p>
+<p><img src="/assets/img/cry.jpg" alt="进坑了"></p>
+<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>经过一天的细心排查以及对Seajs的源码的一些阅读，终于找到了问题所在。</p>
+<blockquote>
+<p>因为Seajs在省略前依赖的时候，框架会通过require来捕捉所有前依赖并在代码执行前进行加载。简言之就是，框架帮你添加了前依赖,但是经过了uglify混淆之后，require变成了一个单字母，结果就是Seajs无法检测到require，也就无法帮忙添加前依赖，此时需要自己手动添加。</p>
+</blockquote>
+<h3 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h3><ol>
+<li>压缩前自己手动添加上前依赖</li>
+<li>可以在uglify压缩时，配置参数来使压缩时不会将require混淆掉。<a href="https://www.npmjs.com/package/uglify-js#mangle" target="_blank" rel="noopener">UglifyJS文档</a></li>
+</ol>
+<p>Uglify配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var compressJS = UglifyJS.minify(orig_code,&#123;</span><br><span class="line">    mangle: &#123;</span><br><span class="line">        reserved: [&apos;require&apos;]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
 
-<p class="text-center">
-  <img style="width: 258px; height: 258px; border: 1px solid #eee; padding: 0; border-radius: 3px;" src="/img/wechat_pay.jpg">
-</p>
+    </div>
+    <p class="post-meta">
+        <span class="post-cat">分类：
+            <a class="cat-link" href="/categories/技术仓库/">技术仓库</a>
+        </span>
+        <span class="post-tags">
+            标签：
+            
+    
+        <a href="/tags/js/" title="js">js</a>
+    
 
-<p class="text-center">
-  如果觉得博客对您有用，欢迎微信赞赏
-</p>
+        </span>
+    </p>
+</article>
+<!-- 分享按钮 -->
 
-  
+  <div class="article-share clearfix text-center">
+    <div class="share-area">
+      <span class="share-txt">分享到：</span>
+      <a href="javascript: window.open('http://service.weibo.com/share/share.php?url=' + encodeURIComponent(location.href) + '&title=' + document.title + '&language=zh_cn');" class="share-icon weibo"></a>
+      <a href="javascript: alert('请复制链接到微信并发送');" class="share-icon wechat"></a>
+      <a href="javascript: window.open('http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + encodeURIComponent(location.href) + '&title=' + document.title);" class="share-icon qqzone"></a>
+      <a href="javascript: window.open('http://connect.qq.com/widget/shareqq/index.html?url=' + encodeURIComponent(location.href) + '&desc=Jelon个人博客&title=' + document.title + '&callback=' + encodeURIComponent(location.href));" class="share-icon qq"></a>
+      <a href="javascript: window.open('http://shuo.douban.com/!service/share?href=' + encodeURIComponent(location.href) + '&name=' + document.title + '&text=' + document.title);" class="share-icon douban"></a>
+    </div>
+  </div>
+
+
+<!-- 上一篇/下一篇 -->
+
+<div class="article-nav clearfix">
+    
+    <span class="prev fl">
+        上一篇<br >
+        <a href="/2018/06/17/2018-01-23-yanglei5/">
+            
+                WebGL第一课-基础介绍
+            
+        </a>
+    </span>
+    
+
+    
+    <span class="next fr">
+        下一篇<br >
+        <a href="/2018/06/17/2018-01-16-yanglei3/">
+            
+                node下载功能开发
+            
+        </a>
+    </span>
+    
+</div>
+
+<!-- 文章评论 -->
+
   <script src="/js/comment.js"></script>
   <div id="comments" class="comment">
     <!--
@@ -165,7 +233,7 @@
   <script>
   JELON.Comment({
     container: 'comments',
-    label: '',
+    label: '2018-01-17-yanglei4',
     owner: 'leofe',
     repo: 'leofe.github.io',
     clientId: 'c5f228f544d943181242',
@@ -174,11 +242,6 @@
   </script>
 
 
-
-
-        
-    </div>
-</article>
             </div>
 
         </section>

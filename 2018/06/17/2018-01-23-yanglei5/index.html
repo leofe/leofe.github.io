@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8" >
     <meta name="baidu-site-verification" content="dIcXMeY8Ya" />
     
-    <title>react组件刷新 | LEOFE</title>
+    <title>WebGL第一课-基础介绍 | LEOFE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" >
     <meta name="keywords" content="Leo, 前端, Web, 生活心得, 前端开发" >
     <meta name="description" content="知识杂货店" >
@@ -46,19 +46,19 @@
         <div class="dropnav icon-paragraph-justify" id="JELON__btnDropNav"></div>
         <ul class="menu hidden" id="JELON__menu">
             
-            <li rel="/2018/06/17/2018-01-09-yanglei1/index.html" class="item ">
+            <li rel="/2018/06/17/2018-01-23-yanglei5/index.html" class="item ">
                 <a href="/" title="首页" class="icon-home">&nbsp;首页</a>
             </li>
             
-            <li rel="/2018/06/17/2018-01-09-yanglei1/index.html" class="item ">
+            <li rel="/2018/06/17/2018-01-23-yanglei5/index.html" class="item ">
                 <a href="/lab/" title="实验室" class="icon-lab">&nbsp;实验室</a>
             </li>
             
-            <li rel="/2018/06/17/2018-01-09-yanglei1/index.html" class="item ">
+            <li rel="/2018/06/17/2018-01-23-yanglei5/index.html" class="item ">
                 <a href="/about/" title="关于" class="icon-about">&nbsp;关于</a>
             </li>
             
-            <li rel="/2018/06/17/2018-01-09-yanglei1/index.html" class="item ">
+            <li rel="/2018/06/17/2018-01-23-yanglei5/index.html" class="item ">
                 <a href="/comment/" title="留言" class="icon-comment">&nbsp;留言</a>
             </li>
             
@@ -83,25 +83,57 @@
 <!-- 文章 -->
 <article class="post article">
     <header class="text-center">
-        <h3 class="post-title"><span>react组件刷新</span></h3>
+        <h3 class="post-title"><span>WebGL第一课-基础介绍</span></h3>
     </header>
     <p class="post-meta text-center">
         leo 发表于
-        <time datetime="2018-06-17T04:29:44.038Z">2018-06-17</time>
+        <time datetime="2018-06-17T04:29:44.040Z">2018-06-17</time>
     </p>
     <div class="post-content">
-        <h3 id="react组件数据刷新"><a href="#react组件数据刷新" class="headerlink" title="react组件数据刷新"></a>react组件数据刷新</h3><p>当数据卸载react的state中时，直接调用this.state.XX来触发自动渲染。</p>
-<h4 id="此操作方式无法触发div内部数据变化"><a href="#此操作方式无法触发div内部数据变化" class="headerlink" title="此操作方式无法触发div内部数据变化"></a>此操作方式无法触发div内部数据变化</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Index extends React.Component &#123;</span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">        super(props);</span><br><span class="line">        this.state = &#123;</span><br><span class="line">            code: &apos;&apos;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    changecode() &#123;</span><br><span class="line">        this.state.code = &apos;2&apos;</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        return &lt;div&gt;&#123;this.state.code&#125;&lt;/div&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>解决以上绑定问题有一下2中解决方案：</p>
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>随着互联网的发展，出现了各式各样的技术，html也已经到达了5.0的版本，前几天也发布了最新的5.1，Web前端能承载越来越多的功能。自从5.0发布后了风靡一时的canvas、video、audio等，一下把flash逼入死角，一时间各种音频、游戏、视频网站都换成了h5来开发，提高了性能以及跨平台的作用。而且随着技术的发展，必然会迎来web的3D时代，随着WebGl的到来，预示着web的3D时代真正来临。<br>WebGL不是官方标准，其实是khronos团队去制定的标准。</p>
+<h2 id="WebGl基础"><a href="#WebGl基础" class="headerlink" title="WebGl基础"></a>WebGl基础</h2><p>WebGL是前端3D语言，从名字就可以看出，跟OpenGL有一定关系。没错，Webgl是从OpenGL转变来的。实际上，WebGL来源于OpenGl ES2.0，并在其基础上做了一层javascript的兼容处理，也就是简化版本的OpenGl，所以在WebGL中依旧能看到很多GLSE语言编写的痕迹。</p>
+<blockquote>
+<p><a href="http://webglreport.com" target="_blank" rel="noopener">检测浏览器是否支持webgl</a></p>
+</blockquote>
+<h3 id="创建webGL对象"><a href="#创建webGL对象" class="headerlink" title="创建webGL对象"></a>创建webGL对象</h3><p>不同浏览器生命WebGL对象方式有所区别，虽然大部分浏览器都支持experimental-webgl，而且以后会变成webgl，所以创建时做一下兼容处理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var canvas = document.getElementById(&quot;glcanvas&quot;);</span><br><span class="line">gl = canvas.getContext(&quot;webgl&quot;) || canvas.getContext(&quot;experimental-webgl&quot;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="创建着色器编码"><a href="#创建着色器编码" class="headerlink" title="创建着色器编码"></a>创建着色器编码</h3><p>WebGL依赖一种新的称为着色器（shader）的绘图机制。着色器提供了灵活且强大的绘制二维或三维图形的方法，所有WebGL必须使用它。着色器不仅强大，而且更复杂，仅仅通过一条简单的绘图指令是不能操作它的。</p>
+<p>WebGL需要两种着色器</p>
 <ul>
-<li><p>数据不存在state中，因为state是react中一个默认携带的数据，代码修改如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class Index extends React.Component &#123;</span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">        super(props);</span><br><span class="line">        this.code = &apos;&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    changecode() &#123;</span><br><span class="line">        this.code = &apos;2&apos;</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        return &lt;div&gt;&#123;this.code&#125;&lt;/div&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>另外一种方法是使用setState来改变state的值，才可以重新渲染，代码改动如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">class Index extends React.Component &#123;</span><br><span class="line">    constructor(props) &#123;</span><br><span class="line">        super(props);</span><br><span class="line">        this.state = &#123;</span><br><span class="line">            code: &apos;&apos;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    changecode() &#123;</span><br><span class="line">        this.setState(&#123;</span><br><span class="line">            code: 1</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        return &lt;div&gt;&#123;this.state.code&#125;&lt;/div&gt;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li>顶点着色器（Vertex shader）：顶点着色器是用来描述顶点特性（如位置、颜色等）的程序。<strong>顶点(Vertex)</strong>是指二维或三维空间的一个点，比如二维或三维空间线与线之间的交叉点或者端点。</li>
+<li><p>片元着色器（Fragment shader）：进行逐片元处理过程（如光照等）的程序。<strong>片元(fragment)</strong>是一个WebGL的术语，你可以将其理解成像素。</p>
+<blockquote>
+<p><strong>着色器语言使用的是GLSL ES语言，所以在javascript需要将之存放在字符串中，等待调用编译</strong></p>
+</blockquote>
 </li>
 </ul>
-<p>以上2种方法就可以动态更新data数据了。</p>
+<p>创建顶点着色器：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var VSHADER_SOURCE = </span><br><span class="line">  &apos;void main() &#123;\n&apos; +</span><br><span class="line">    &apos;  gl_Position = vec4(0.0, 0.0, 0.0, 1.0);\n&apos; +</span><br><span class="line">    &apos;  gl_PointSize = 10.0;\n&apos; + </span><br><span class="line">  &apos;&#125;\n&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>创建片元着色器：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> var FSHADER_SOURCE =</span><br><span class="line">    &apos;void main() &#123;\n&apos; +</span><br><span class="line">    &apos;  gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);\n&apos; +</span><br><span class="line">&apos;&#125;\n&apos;;</span><br></pre></td></tr></table></figure></p>
+<p>浏览器的整个过程如下：</p>
+<p><img src="/assets/img/yanglei5.jpg" alt="webgl渲染过程"></p>
+<p>着色器中包含几个内置变量：<strong>gl_Position, gl_PointSize, gl_FragColor</strong>。</p>
+<blockquote>
+<p>着色器语言中涉及到vec4的数据类型，此数据类型是一个思维浮点数组，所以其值不可以是整形如(1,1,1,1)，<strong>正确应为：(1.0,1.0,1.0,1.0)</strong></p>
+</blockquote>
+<ul>
+<li><p><strong>gl_Position</strong>: 为一种vec4类型的变量，且必须被赋值。四维坐标矢量，我们称之为<strong>齐次坐标</strong>，即(x,y,z,w)等价于三维左边(x/w,y/w,z/w)，w相当于深度，没有特殊要求设置为1.0即可。</p>
+</li>
+<li><p><strong>gl_PointSize</strong>：表示顶点的尺寸，也是浮点数，为非必填项，如果不填则默认显示为1.0。</p>
+</li>
+<li><p><strong>gl_FragColor</strong>：该变量为片元着色器唯一的内置变量，表示其颜色，也是一个vec4类型变量，分别代表（R,G,B,A），不过颜色范围是从<strong>0.0-1.0</strong>对应Javascript中的<strong>#00-#FF</strong>。</p>
+</li>
+</ul>
+<h2 id="坐标系"><a href="#坐标系" class="headerlink" title="坐标系"></a>坐标系</h2><p>WebGL采用右手坐标系，如图所示：</p>
+<p><img src="/assets/img/right.jpg" alt="webgl渲染过程"></p>
+<blockquote>
+<p>基础部分介绍到此，大家也基本了解WebGL与着色器了，下一课我们一起来运用着色器绘制一个圆点，<a href="/yanglei/2018/01/24/yanglei6.html">下一课</a>。</p>
+</blockquote>
+<hr>
+<h4 id="Webgl课程列表"><a href="#Webgl课程列表" class="headerlink" title="Webgl课程列表"></a>Webgl课程列表</h4><ul>
+<li><a target="_blank" href="/yanglei/2018/01/24/yanglei5.html">[WebGL第一课-基础介绍]</a></li>
+<li><a target="_blank" href="/yanglei/2018/01/24/yanglei6.html">[WebGL第二课-着色器使用]</a></li>
+<li><a target="_blank" href="/yanglei/2018/01/24/yanglei8.html">[WebGL第三课-着色器编程]</a></li>
+<li><a target="_blank" href="/yanglei/2018/01/24/yanglei9.html">[WebGL第四课-图像缓存区使用]</a></li>
+</ul>
 
     </div>
     <p class="post-meta">
@@ -112,7 +144,7 @@
             标签：
             
     
-        <a href="/tags/react/" title="react">react</a>
+        <a href="/tags/WebGL/" title="WebGL">WebGL</a>
     
 
         </span>
@@ -138,9 +170,9 @@
     
     <span class="prev fl">
         上一篇<br >
-        <a href="/2018/06/17/2018-01-09-yanglei2/">
+        <a href="/2018/06/17/2018-01-24-yanglei6/">
             
-                react组件原有属性写法
+                WebGL第二课-着色器使用
             
         </a>
     </span>
@@ -149,7 +181,11 @@
     
     <span class="next fr">
         下一篇<br >
-        <a href="javascript: void(0);">没有下一篇了</a>
+        <a href="/2018/06/17/2018-01-17-yanglei4/">
+            
+                Seajs模块压缩后引用其他模块无效
+            
+        </a>
     </span>
     
 </div>
@@ -224,7 +260,7 @@
   <script>
   JELON.Comment({
     container: 'comments',
-    label: '2018-01-09-yanglei1',
+    label: '2018-01-23-yanglei5',
     owner: 'leofe',
     repo: 'leofe.github.io',
     clientId: 'c5f228f544d943181242',
