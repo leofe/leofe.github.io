@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8" >
     <meta name="baidu-site-verification" content="dIcXMeY8Ya" />
     
-    <title>Markdown语法大全 | LEOFE</title>
+    <title>React-图片背景被键盘挤压解决方案 | LEOFE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" >
     <meta name="keywords" content="Leo, 前端, Web, 生活心得, 前端开发" >
     <meta name="description" content="知识杂货店" >
@@ -46,19 +46,19 @@
         <div class="dropnav icon-paragraph-justify" id="JELON__btnDropNav"></div>
         <ul class="menu hidden" id="JELON__menu">
             
-            <li rel="/2018/06/17/markdowm/index.html" class="item ">
+            <li rel="/2018/06/17/2018-01-25-yanglei7/index.html" class="item ">
                 <a href="/" title="首页" class="icon-home">&nbsp;首页</a>
             </li>
             
-            <li rel="/2018/06/17/markdowm/index.html" class="item ">
+            <li rel="/2018/06/17/2018-01-25-yanglei7/index.html" class="item ">
                 <a href="/lab/" title="实验室" class="icon-lab">&nbsp;实验室</a>
             </li>
             
-            <li rel="/2018/06/17/markdowm/index.html" class="item ">
+            <li rel="/2018/06/17/2018-01-25-yanglei7/index.html" class="item ">
                 <a href="/about/" title="关于" class="icon-about">&nbsp;关于</a>
             </li>
             
-            <li rel="/2018/06/17/markdowm/index.html" class="item ">
+            <li rel="/2018/06/17/2018-01-25-yanglei7/index.html" class="item ">
                 <a href="/comment/" title="留言" class="icon-comment">&nbsp;留言</a>
             </li>
             
@@ -83,32 +83,22 @@
 <!-- 文章 -->
 <article class="post article">
     <header class="text-center">
-        <h3 class="post-title"><span>Markdown语法大全</span></h3>
+        <h3 class="post-title"><span>React-图片背景被键盘挤压解决方案</span></h3>
     </header>
     <p class="post-meta text-center">
-        Jelon 发表于
-        <time datetime="2018-06-17T05:00:10.874Z">2018-06-17</time>
+        leo 发表于
+        <time datetime="2018-06-17T04:29:44.041Z">2018-06-17</time>
     </p>
     <div class="post-content">
-        <p>jekyll博客采用markdown语法来编写，的确方便了很多，但是mark语法大家熟悉吗？一下列举了部分常用的语法写法</p>
-<h2 id="文字部分"><a href="#文字部分" class="headerlink" title="文字部分"></a>文字部分</h2><h1 id="一级文字"><a href="#一级文字" class="headerlink" title="一级文字"></a>一级文字</h1><h2 id="二级文字"><a href="#二级文字" class="headerlink" title="二级文字"></a>二级文字</h2><h3 id="三级文字"><a href="#三级文字" class="headerlink" title="三级文字"></a>三级文字</h3><h4 id="四级文字"><a href="#四级文字" class="headerlink" title="四级文字"></a>四级文字</h4><h5 id="五级文字"><a href="#五级文字" class="headerlink" title="五级文字"></a>五级文字</h5><h6 id="六级文字"><a href="#六级文字" class="headerlink" title="六级文字"></a>六级文字</h6><h2 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h2><hr>
-<h2 id="强调文字"><a href="#强调文字" class="headerlink" title="强调文字"></a>强调文字</h2><p><strong><em>我是强调文字</em></strong></p>
-<h2 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h2><p><img src="/assets/img/cry.jpg" alt="我是图片的Alt"></p>
-<h2 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h2><p><a href="http://www.jd.com" target="_blank" rel="noopener">我是本页打开的链接</a></p>
-<p><a target="_blank" href="//www.jd.com">我是新页签打开的链接</a></p>
-<h2 id="序列"><a href="#序列" class="headerlink" title="序列"></a>序列</h2><ul>
-<li>我是第一项</li>
-<li>我是第二项</li>
-<li>我是第三项</li>
-</ul>
-<h2 id="提示文"><a href="#提示文" class="headerlink" title="提示文"></a>提示文</h2><blockquote>
-<p>我是提示语言，这么做我们变成一个斜体文字了</p>
-</blockquote>
-<h2 id="模块语言"><a href="#模块语言" class="headerlink" title="模块语言"></a>模块语言</h2><pre><code>前面加一个tab，我就变成模块语言，这么做我就单独飞出来了
-</code></pre><h2 id="代码块"><a href="#代码块" class="headerlink" title="代码块"></a>代码块</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">componentWillMount() &#123;</span><br><span class="line">    this.height = window.screen.height;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>待后续继续补充</p>
-</blockquote>
+        <h2 id="场景复现"><a href="#场景复现" class="headerlink" title="场景复现"></a>场景复现</h2><p>当背景使用background-image来设置时，Android中会出现如下事情：</p>
+<p><img src="/assets/img/yanglei7-bug1.png" alt="没有键盘时"></p>
+<h3 id="什么情况，背景图怎么变小了？"><a href="#什么情况，背景图怎么变小了？" class="headerlink" title="什么情况，背景图怎么变小了？"></a>什么情况，背景图怎么变小了？</h3><p>是的，在Android中会存在这个问题，IOS中图片是不会被键盘挤压的。来看看解决办法吧。</p>
+<h2 id="解决办法"><a href="#解决办法" class="headerlink" title="解决办法"></a>解决办法</h2><p><strong>在界面初始化进来时，对设置背景层的容器进行高度设置，是的，需要动态设置容器高度来保证图片不会被挤压</strong><br>这个问题是在开发React项目时发现的，所以一下会大概写出React中解决方案。</p>
+<h2 id="具体解决步骤"><a href="#具体解决步骤" class="headerlink" title="具体解决步骤"></a>具体解决步骤</h2><p>首先，在constructor中声明一个height。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">constructor(props) &#123;</span><br><span class="line">    super(props);</span><br><span class="line">    this.height = 0;</span><br><span class="line">&#125;</span><br><span class="line">&#123;% endhighlight%&#125;</span><br><span class="line"></span><br><span class="line">第二步，在对应容器中添加style的绑定</span><br></pre></td></tr></table></figure></p>
+<p>render() {<br>    return (<div classname="login-bg red" style="{" {minheight:this.height}="" }=""></div>);<br>}<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">第三步：在渲染前获取屏幕高度，并设置height的值</span><br></pre></td></tr></table></figure></p>
+<p>componentWillMount() {<br>    this.height = window.screen.height;<br>}<br><code>`</code></p>
+<p><strong>大功告成，来看看最终效果吧</strong></p>
+<p><img src="/assets/img/yanglei7-bug2.jpg" alt="正确的情况"></p>
 
     </div>
     <p class="post-meta">
@@ -118,6 +108,10 @@
         <span class="post-tags">
             标签：
             
+    
+        <a href="/tags/react/" title="react">react</a>
+    
+
         </span>
     </p>
 </article>
@@ -141,16 +135,20 @@
     
     <span class="prev fl">
         上一篇<br >
-        <a href="javascript: void(0);">没有上一篇了</a>
+        <a href="/2018/06/17/2018-03-13-yanglei9/">
+            
+                WebGL第四课-图像缓存区使用
+            
+        </a>
     </span>
     
 
     
     <span class="next fr">
         下一篇<br >
-        <a href="/2018/06/17/2018-01-09-yanglei1/">
+        <a href="/2018/06/17/2018-02-05-yanglei8/">
             
-                react组件刷新
+                WebGL第三课-着色器编程
             
         </a>
     </span>
@@ -227,7 +225,7 @@
   <script>
   JELON.Comment({
     container: 'comments',
-    label: 'markdowm',
+    label: '2018-01-25-yanglei7',
     owner: 'leofe',
     repo: 'leofe.github.io',
     clientId: 'c5f228f544d943181242',
@@ -248,7 +246,7 @@
     
     <li>
         <a href="/categories/技术仓库/">技术仓库</a>
-        <span class="badge">(3)</span>
+        <span class="badge">(12)</span>
     </li>
     
 </ul>
@@ -260,7 +258,13 @@
         <!-- 文章标签 -->
 <div class="widget-bd tag-wrap">
   
-    <a class="tag-item" href="/tags/react/" title="react">react (2)</a>
+    <a class="tag-item" href="/tags/react/" title="react">react (3)</a>
+  
+    <a class="tag-item" href="/tags/nodeJS/" title="nodeJS">nodeJS (1)</a>
+  
+    <a class="tag-item" href="/tags/js/" title="js">js (3)</a>
+  
+    <a class="tag-item" href="/tags/WebGL/" title="WebGL">WebGL (5)</a>
   
 </div>
     </section>
