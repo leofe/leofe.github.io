@@ -76,7 +76,7 @@
                     
                     <a href="javascript: void(0);" class="wechat">
                         <b>■</b>
-                        公众号
+                        微信号
                         <span class="popover">
                             <img src="/img/wechat.jpg" width="120" height="120" alt="我的微信订阅号">
                             <i class="arrow"></i>
@@ -643,14 +643,48 @@
   
     <a class="tag-item" href="/tags/nodeJS/" title="nodeJS">nodeJS (1)</a>
   
-    <a class="tag-item" href="/tags/js/" title="js">js (3)</a>
-  
     <a class="tag-item" href="/tags/WebGL/" title="WebGL">WebGL (5)</a>
+  
+    <a class="tag-item" href="/tags/js/" title="js">js (3)</a>
   
 </div>
     </section>
     
 
+    
+    <!-- 我的微博 -->
+    <section class="widget">
+        <h3 class="widget-hd"><strong>我的微博</strong></h3>
+        <div class="widget-bd" style="position: relative;">
+  <div id="myWeiboLoading" class="text-center" style="position:absolute;top:0;left:0;right:0;bottom:0;line-height:50px;font-size:12px;background-color:#fff;z-index:9;">微博加载中...</div>
+  <iframe id="myWeibo" width="100%" height="550" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=550&fansRow=2&ptype=1&speed=0&skin=1&isTitle=0&noborder=0&isWeibo=1&isFans=0&uid=2376003112&verifier=796ea597&dpc=1"></iframe>
+  <script>
+  (function () {
+    var oMyWeibo = document.getElementById('myWeibo');
+    var oMyWeiboLoading = document.getElementById('myWeiboLoading');
+    var isIE = /msie/i.test(navigator.userAgent) && !window.opera;
+    var timer = null;
+    if (isIE) {
+      oMyWeibo.onreadystatechange = function(){
+        if(oMyWeibo.readyState === 'loaded' || oMyWeibo.readyState === 'complete'){
+          timer = setTimeout(function () {
+            oMyWeiboLoading.parentNode.removeChild(oMyWeiboLoading);
+            timer = null;
+          }, 300);
+        }
+      };
+    } else {
+      oMyWeibo.onload = function () {
+        timer = setTimeout(function () {
+          oMyWeiboLoading.parentNode.removeChild(oMyWeiboLoading);
+          timer = null;
+        }, 300);
+      };
+    }
+  })();
+  </script>
+</div>
+    </section>
     
 
     
