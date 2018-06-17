@@ -86,5 +86,5 @@ comment:
   enable: true      # 是否开启配置
   owner: codeSnipe  # 你的 github 账户名
   repo: https://github.com/leofe/leofe.git # github repository
-  client_id: c5f228f544d943181242 # github application client id
-  client_secret: df3363ed741c2d6768baacf3cd0055474f3432d7 # github application secret
+  client_id: 1aed4bc60f2eebdbc990 # github application client id
+  client_secret: 9f2fcf70bf7bbe6a6dc1d3007dac1a26067be4f8 # github application secret
