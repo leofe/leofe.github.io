@@ -85,6 +85,6 @@ deploy:
 comment:
   enable: true      # 是否开启配置
   owner: leofe  # 你的 github 账户名
-  repo: github.com/leofe/leofe.github.io # github repository
+  repo: leofe.github.io # github repository
   client_id: c5f228f544d943181242 # github application client id
   client_secret: df3363ed741c2d6768baacf3cd0055474f3432d7 # github application secret
