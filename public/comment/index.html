@@ -51,10 +51,6 @@
             </li>
             
             <li rel="/comment/index.html" class="item ">
-                <a href="/lab/" title="实验室" class="icon-lab">&nbsp;实验室</a>
-            </li>
-            
-            <li rel="/comment/index.html" class="item ">
                 <a href="/about/" title="关于" class="icon-about">&nbsp;关于</a>
             </li>
             
@@ -87,10 +83,31 @@
     <div class="post-content">
         
             <!-- 自定义留言页 -->
-
-<p class="text-center">
-  <img style="width: 258px; height: 258px; border: 1px solid #eee; padding: 0; border-radius: 3px;" src="/img/wechat_pay.jpg">
-</p>
+<style>
+  .pay-img {
+    display: inline-block;
+    width: 258px;
+    border: 1px solid #eee; 
+    padding: 0; border-radius: 3px; 
+    margin: 0 30px;
+    box-shadow: 0 0 10px 5px rgba(200,200,200,.3);
+    transition: .5s all ease-in;
+  }
+  .img {
+    width: 258px;
+  }
+  .pay-img:hover {
+    transform:  scale(1.1, 1.1);
+  }
+</style>
+<div class="text-center">
+  <div class='pay-img'>
+      <img class='img' src="/img/alipay.jpg">
+  </div>
+  <div class='pay-img'>
+      <img class='img' src="/img/wechat_pay.jpg">
+  </div>
+</div>
 
 <p class="text-center">
   如果觉得博客对您有用，欢迎微信赞赏
