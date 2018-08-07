@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" >
     <meta name="keywords" content="Leo, 前端, Web, 生活心得, 前端开发" >
     <meta name="description" content="知识杂货店" >
+    <link rel="manifest" href="/js/manifest.json">
 
     
     <link rel="alternative" href="/atom.xml" title="LEOFE" type="application/atom+xml" >
@@ -272,7 +273,12 @@
     
     <li>
         <a href="/categories/技术仓库/">技术仓库</a>
-        <span class="badge">(13)</span>
+        <span class="badge">(14)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/书单/">书单</a>
+        <span class="badge">(1)</span>
     </li>
     
 </ul>
@@ -293,6 +299,10 @@
     <a class="tag-item" href="/tags/js/" title="js">js (3)</a>
   
     <a class="tag-item" href="/tags/Git/" title="Git">Git (1)</a>
+  
+    <a class="tag-item" href="/tags/PWA/" title="PWA">PWA (1)</a>
+  
+    <a class="tag-item" href="/tags/book/" title="book">book (1)</a>
   
 </div>
     </section>
@@ -332,5 +342,19 @@
     <!--博客js脚本 -->
     <!-- 这里放网站js脚本 -->
 <script src="/js/main.js"></script>
+
+	<script type="text/javascript">
+		window.addEventListener('load', function () {
+			if('serviceWorker' in navigator) {
+				navigator.serviceWorker.register('/sw.js?'+new Date().getTime(),{scope: '/'})
+				.then(reg => {
+					console.log('Server worker registered!');
+				})
+				.catch(err => {
+					console.log('Server worker registered Fail!', err)
+				})
+			}
+		});    
+	</script>
 </body>
 </html>

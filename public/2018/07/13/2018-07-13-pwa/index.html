@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8" >
     <meta name="baidu-site-verification" content="K1ToSIqNDa" />
     
-    <title>Git删除与恢复branch | LEOFE</title>
+    <title>PWA初体验 | LEOFE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" >
     <meta name="keywords" content="Leo, 前端, Web, 生活心得, 前端开发" >
     <meta name="description" content="知识杂货店" >
@@ -47,15 +47,15 @@
         <div class="dropnav icon-paragraph-justify" id="JELON__btnDropNav"></div>
         <ul class="menu hidden" id="JELON__menu">
             
-            <li rel="/2018/06/17/2018-06-17-git/index.html" class="item ">
+            <li rel="/2018/07/13/2018-07-13-pwa/index.html" class="item ">
                 <a href="/" title="首页" class="icon-home">&nbsp;首页</a>
             </li>
             
-            <li rel="/2018/06/17/2018-06-17-git/index.html" class="item ">
+            <li rel="/2018/07/13/2018-07-13-pwa/index.html" class="item ">
                 <a href="/about/" title="关于" class="icon-about">&nbsp;关于</a>
             </li>
             
-            <li rel="/2018/06/17/2018-06-17-git/index.html" class="item ">
+            <li rel="/2018/07/13/2018-07-13-pwa/index.html" class="item ">
                 <a href="/comment/" title="留言" class="icon-comment">&nbsp;留言</a>
             </li>
             
@@ -102,40 +102,34 @@
 <!-- 文章 -->
 <article class="post article">
     <header class="text-center">
-        <h3 class="post-title"><span>Git删除与恢复branch</span></h3>
+        <h3 class="post-title"><span>PWA初体验</span></h3>
     </header>
     <p class="post-meta text-center">
         leo 发表于
-        <time datetime="2018-06-16T16:00:00.000Z">2018-06-17</time>
+        <time datetime="2018-07-12T16:00:00.000Z">2018-07-13</time>
     </p>
     <div class="post-content">
-        <p>有没有，git创建无意中名字起错了，分支上传错了，想删除了？删除做了想恢复了？远程与本地都删除了要恢复的情况呢？如果有，那么一下内容获取你会感兴趣。</p>
-<h2 id="删除分支"><a href="#删除分支" class="headerlink" title="删除分支"></a>删除分支</h2><p>有的时候可能会遇到需要删除git的branch的情况，那么要如何去删除呢,删除分支可以分为2种情况。</p>
-<h3 id="删除本地分支-git-branch-D-branchName"><a href="#删除本地分支-git-branch-D-branchName" class="headerlink" title="删除本地分支(git branch -D branchName)"></a>删除本地分支(git branch -D branchName)</h3><p>删除服务端分支 (git push origin –delete branchName)</p>
+        <h3 id="当前前端背景"><a href="#当前前端背景" class="headerlink" title="当前前端背景"></a>当前前端背景</h3><p>几年前，用H5开发APP很流行，除了众多框架来辅助，如phoneGap，appCan等，本质上框架帮忙创建了一个Webview，并且把写的h5运行在一个内嵌WebView浏览器中，这种曾经风靡一时的开发方式叫Hybird App，混合开发。但因为其性能问题，逐渐的被冷落。</p>
+<p>接下来众多大神开始想法把js直接通过一个框架转化成java或者oc，让一套H5代码直接运行在多端，最火的可能就是基于React的React Native。这是一个神一样的框架，的确让我们向大前端前进了一大步。但这依旧离不开其他代码，只不过rn帮忙将JS转换成了对应的系统代码而已。怎么能更好的让前端代码看起来更像APP呢，性能更接近APP呢，那肯定是不需要先加载内容在去执行内容，APP原生的框架代码都在本地，性能一定会快过需要首先加载资源的H5，如果我们也可以把资源都安装在本地的话呢？那岂不是与APP是一样的了？只有数据请求时才会去加载数据，否则与网速是不想管的。<br>恰逢2017年CMTC大会，谷歌的开发者发布了名为Progressive Web App(渐进式的网页程序，本文以下内容均简称为PWA)，终于让大家思考的成为了可能。</p>
+<h3 id="PWA特点介绍"><a href="#PWA特点介绍" class="headerlink" title="PWA特点介绍"></a>PWA特点介绍</h3><p>PWA是一种可以在网页中呈现出让人惊讶的效果的方法，PWA具备以下几个特色：</p>
 <ol>
-<li><p>第一种情况<br>当出入删除本地分支命令时，bash中会返回如下内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git branch -D trunk.201705</span><br><span class="line">Deleted branch trunk.201705 (was 9cc0374).</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>第二种情况<br>当决定删除服务端分支时，一定要慎重，bash中会返回如下内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ git push origin –delete trunk.201705</span><br><span class="line">remote: Updating references: 100% (1/1)</span><br><span class="line">To http://source.jd.com/app/webpack-scaffold.git</span><br><span class="line">– [deleted] trunk.201705</span><br></pre></td></tr></table></figure>
-</li>
+<li>Reliable(可靠性)：系统始终会为用户呈现出来页面，即使网络环境很差甚至无网络。</li>
+<li>Fast(快速)：能够提供快速的用户相应，让用户拥有顺畅的操作体验。</li>
+<li>Engaging(引人入胜的)：可以让web在设备上看起来像一个应用程序，提供沉浸式的用户体验。</li>
 </ol>
-<h2 id="恢复分支"><a href="#恢复分支" class="headerlink" title="恢复分支"></a>恢复分支</h2><p>当你只删除本地的时候，可以重新从git服务器上clone一份，大家也都会如此操作，但是，如果你无意中把服务器端的所有分支都删除掉了，那要如何来恢复呢？因为分支删除后，git中是不存在提交记录查询的了。如果真有次误操作，大家不要着急，恢复方法如下：</p>
-<h3 id="第一步，输入命令"><a href="#第一步，输入命令" class="headerlink" title="第一步，输入命令"></a>第一步，输入命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ git log -g</span><br><span class="line">commit 97b5c828cd4f2214cfa33be31867dbf34b48e547</span><br><span class="line">Reflog: HEAD@&#123;0&#125; (Git账号&lt;Git密码&gt;)</span><br><span class="line">Reflog message: checkout: moving from trunk.201704 to master</span><br><span class="line">Author: Git账号&lt;Git密码&gt;</span><br><span class="line">Date: Thu May 25 11:22:23 2017 +0800</span><br></pre></td></tr></table></figure>
-<p>提交记录的备注<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">commit 77bd9ed5507a774e579f67e348e338093dd68252</span><br><span class="line">Reflog: HEAD@&#123;1&#125; (Git账号&lt;Git密码&gt;)</span><br><span class="line">Reflog message: checkout: moving from master to trunk.201704</span><br><span class="line">Author: Git账号 &lt;Git密码&gt;</span><br><span class="line">Date: Thu May 25 11:21:06 2017 +0800</span><br></pre></td></tr></table></figure></p>
-<p>提交记录的备注</p>
-<blockquote>
-<p>此命令会从本地的代码库中查询到你的所有提交记录</p>
-</blockquote>
-<h3 id="第二步：还原到对应的commit代码中去，蓝色的内容为commit-id，可以通过此ID来指定恢复的版本，使用如下命令"><a href="#第二步：还原到对应的commit代码中去，蓝色的内容为commit-id，可以通过此ID来指定恢复的版本，使用如下命令" class="headerlink" title="第二步：还原到对应的commit代码中去，蓝色的内容为commit-id，可以通过此ID来指定恢复的版本，使用如下命令"></a>第二步：还原到对应的commit代码中去，蓝色的内容为commit-id，可以通过此ID来指定恢复的版本，使用如下命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git branch trunk.201704 77bd9ed5507a774e579f67e348e338093dd68252</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>此命令会在对应的项目中创建一个分支，名字为trunk.201704,此分支的代码为后面commit-id对应的代码内容。</p>
-</blockquote>
-<h3 id="第三步：-查看一下分支内容吧，"><a href="#第三步：-查看一下分支内容吧，" class="headerlink" title="第三步： 查看一下分支内容吧，"></a>第三步： 查看一下分支内容吧，</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ git branch -a</span><br><span class="line">Branch_trunk.201704</span><br><span class="line">master</span><br><span class="line">trunk.201704</span><br><span class="line">* trunk.201705</span><br><span class="line">remotes/origin/HEAD -&gt; origin/master</span><br><span class="line">remotes/origin/master</span><br></pre></td></tr></table></figure>
-<p>是不是发现本地多了一个分支。</p>
-<h3 id="第四步：那么可以将此代码上传到服务器了，可以在服务器端新建一个分支，然后清空，将还原的分支内容copy进去，在push，则可以成功的还原到之前的版本了。"><a href="#第四步：那么可以将此代码上传到服务器了，可以在服务器端新建一个分支，然后清空，将还原的分支内容copy进去，在push，则可以成功的还原到之前的版本了。" class="headerlink" title="第四步：那么可以将此代码上传到服务器了，可以在服务器端新建一个分支，然后清空，将还原的分支内容copy进去，在push，则可以成功的还原到之前的版本了。"></a>第四步：那么可以将此代码上传到服务器了，可以在服务器端新建一个分支，然后清空，将还原的分支内容copy进去，在push，则可以成功的还原到之前的版本了。</h3><p>当然大家在操作的时候，切记要慎重，不要轻易删除git服务端的分支代码。</p>
-<pre><code>PS：以上代码块内容中标红内容为命令，其他内容为执行命令后的返回内容。
-</code></pre>
+<p>拥有了以上几点优势，让PWA也能够在在用户的屏幕上赢得一席之地。<br>但因为其缓存行，也会给不法分子提供更好的攻击途径，所以PWA在使用时，会有一些限制来保证用户网站能达到流程的用户体验的同时还保证用户的安全。<br>注意事项：</p>
+<ol>
+<li>PWA中Service-worker只能在https的域名中才可以注册，并对网站进行缓存，但谷歌为了提供开发环境，PWA也支持localhost或127.0.0.1本地域名注册。</li>
+<li>Services-workers在缓存时也只能缓存对应的https得请求文件。</li>
+</ol>
+<h3 id="PWA中主要技术点"><a href="#PWA中主要技术点" class="headerlink" title="PWA中主要技术点"></a>PWA中主要技术点</h3><p>PWA整体主要用到以下技术内容：</p>
+<ul>
+<li>Service Workers：主要用来控制缓存内容。</li>
+<li>Fetch：主要用于拦截各种请求，并且判断是否可以使用Service Workers缓存。</li>
+</ul>
+<h3 id="先编写一个简单的ServiceWorker"><a href="#先编写一个简单的ServiceWorker" class="headerlink" title="先编写一个简单的ServiceWorker"></a>先编写一个简单的ServiceWorker</h3><p>使用PWA缓存，最终要的是需要在页面中使用注册一个service-workers，并且此功能是单独的一个线程，区别于当前页面线程，所以在service-workers中是无法操作任何dom元素的。首先我们先了解一下Service-Worker的生命周期：</p>
+<h3 id="fetch功能"><a href="#fetch功能" class="headerlink" title="fetch功能"></a>fetch功能</h3><p><a href="https://developers.google.com/web/progressive-web-apps/" target="_blank">更多的PWA内容可前往谷歌官网</a></p>
+
     </div>
     <p class="post-meta">
         <span class="post-cat">分类：
@@ -145,7 +139,7 @@
             标签：
             
     
-        <a href="/tags/Git/" title="Git">Git</a>
+        <a href="/tags/PWA/" title="PWA">PWA</a>
     
 
         </span>
@@ -171,20 +165,16 @@
     
     <span class="prev fl">
         上一篇<br >
-        <a href="/2018/07/13/2018-07-13-pwa/">
-            
-                PWA初体验
-            
-        </a>
+        <a href="javascript: void(0);">没有上一篇了</a>
     </span>
     
 
     
     <span class="next fr">
         下一篇<br >
-        <a href="/2018/04/13/2018-04-13-yanglei12/">
+        <a href="/2018/06/17/2018-06-17-git/">
             
-                WebGL实战
+                Git删除与恢复branch
             
         </a>
     </span>
@@ -261,7 +251,7 @@
   <script>
   JELON.Comment({
     container: 'comments',
-    label: '2018-06-17-git',
+    label: '2018-07-13-pwa',
     owner: 'leofe',
     repo: 'leofe.github.io',
     clientId: 'c5f228f544d943181242',
