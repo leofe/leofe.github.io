@@ -3,7 +3,7 @@
         // var resource = srcList[i].replace(/http:|https:/, 'https:');
         var name = srcList[i];
         var arr = name.split('-');
-        var resource = '//leofe.github.io/' + arr[0] + '/' + arr[1] + '/' + arr[2]+ '/' + name+'/index.html';
+        var resource = '//leofe.github.io/' + arr[0] + '/' + arr[1] + '/' + arr[2]+ '/' + name+'/';
         var head = document.getElementsByTagName('head')[0];
         var rsTag = document.createElement('link');
         rsTag.setAttribute('rel', 'prefetch');
