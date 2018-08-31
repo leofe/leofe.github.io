@@ -1,6 +1,6 @@
 // importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.3.1/workbox-sw.js');
 // version: 1
-var version = '1.0.4';
+var version = '1.0.5';
 var cacheName = 'leofe'+version;
 var filesToCache = [
     //通用资源
