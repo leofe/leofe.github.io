@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" >
+    <meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8" >
+    <meta name="baidu-site-verification" content="K1ToSIqNDa" />
+    
+    <title>Resource Hints 了解一下 | LEOFE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" >
+    <meta name="keywords" content="Leo, 前端, Web, 生活心得, 前端开发" >
+    <meta name="description" content="知识杂货店" >
+    <link rel="manifest" href="/js/manifest.json">
+
+    
+    <link rel="alternative" href="/atom.xml" title="LEOFE" type="application/atom+xml" >
+    
+    
+    <link rel="shortcut icon" href="/favicon.ico" >
+    
+    <link rel="stylesheet" href="/css/style.css">
+    <!--[if lt IE 9]>
+    <script src="/js/html5.js"></script>
+    <![endif]-->
+    
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-123804638-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-123804638-1');
+    </script>
+</head>
+
+<body class="home">
+    <!--[if lt IE 9]>
+    <div class="browsehappy">
+        当前网页 <strong>不支持</strong>
+        你正在使用的浏览器. 为了正常的访问, 请 <a href="http://browsehappy.com/">升级你的浏览器</a>.
+    </div>
+    <![endif]-->
+
+    <!-- 博客头部 -->
+    <header class="header">
+    <section class="container header-main">
+        <div class="logo">
+            <a href="/">
+                <div class="cover">
+                    <span class="name">LEOFE</span>
+                    <span class="description">知识杂货店</span>
+                </div>
+            </a>
+        </div>
+        <div class="dropnav icon-paragraph-justify" id="JELON__btnDropNav"></div>
+        <ul class="menu hidden" id="JELON__menu">
+            
+            <li rel="/2018/08/31/2018-08-18-resource-hints/index.html" class="item ">
+                <a href="/" title="首页" class="icon-home">&nbsp;首页</a>
+            </li>
+            
+            <li rel="/2018/08/31/2018-08-18-resource-hints/index.html" class="item ">
+                <a href="/about/" title="关于" class="icon-about">&nbsp;关于</a>
+            </li>
+            
+            <li rel="/2018/08/31/2018-08-18-resource-hints/index.html" class="item ">
+                <a href="/comment/" title="留言" class="icon-comment">&nbsp;留言</a>
+            </li>
+            
+        </ul>
+        <div class="profile clearfix">
+            <div class="feeds fl">
+                
+                
+                <p class="links">
+                    
+                        <a href="https://github.com/codeSnipe" target="_blank">Github</a>
+                        |
+                    
+                        <a href="https://www.jianshu.com/u/e7ff8dafa3c3" target="_blank">简书</a>
+                        
+                    
+                </p>
+                <p class="sns">
+                    
+                    <a href="javascript: void(0);" class="wechat">
+                        <b>■</b>
+                        微信号
+                        <span class="popover">
+                            <img src="/img/wechat.jpg" width="120" height="120" alt="我的微信订阅号">
+                            <i class="arrow"></i>
+                        </span>
+                    </a>
+                </p>
+                
+            </div>
+            <div class="avatar fr">
+                <img src="/img/leofe.jpg" alt="avatar" title="Leo" >
+            </div>
+        </div>
+    </section>
+</header>
+
+
+    <!-- 博客正文 -->
+    <div class="container body clearfix">
+        <section class="content">
+            <div class="content-main widget">
+                <!-- 文章页 -->
+<!-- 文章 -->
+<article class="post article">
+    <header class="text-center">
+        <h3 class="post-title"><span>Resource Hints 了解一下</span></h3>
+    </header>
+    <p class="post-meta text-center">
+        leo 发表于
+        <time datetime="2018-08-30T16:00:00.000Z">2018-08-31</time>
+    </p>
+    <div class="post-content">
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p><img src="/assets/img/zhouyi.png" alt="周易八卦图" style="width: 400px;"></p>
+<p>这是一张八卦图，来讲讲玄学领域，古代的皇帝一直都在追求长生，追求预测国运，预测未来，每个朝代也都有专门的观星岗位，想借助行星的轨迹来窥探未来的走势，我了解的比较出名的就是李淳風、袁天罡著的推背图了，据说推算出了从唐朝往后2000年历史，为何古代人对未来运势如此着迷呢？好吧，玄学讲到这里，本章主要不讨论玄学，如有兴趣可以留言一起讨论一下哈。</p>
+<p>我们先回到现代，既然预测这个行为那么受欢迎，当今社会啥行业最火？莫不是互联网？难道互联网也在搞预测算命？</p>
+<p><img src="/assets/img/cheat.png" alt="我读书少" width="400px"></p>
+<p>自从互联网兴起之后，网站也越来越漂亮，越来越大，性能就是大家一致追求的方向，大家也都想预测用户下一步行为,从浏览器厂商到各个开发者都想通过各种方式来提升用户的体验，所以提前知道用户的下一步行为，预先加载用户下一个页面的资源就是一种迫在眉睫的行为了。</p>
+<h4 id="我们这么搞？"><a href="#我们这么搞？" class="headerlink" title="我们这么搞？"></a>我们这么搞？</h4><ol>
+<li>简单粗暴的可以直接页签最下端引用加载。</li>
+<li>高级一点：我可以在执行的js代码来进行load加载</li>
+</ol>
+<p>在高级点？<br><img src="/assets/img/monkey.png" alt="猴子" width="200px"></p>
+<h4 id="听小道消息说谷歌这么搞"><a href="#听小道消息说谷歌这么搞" class="headerlink" title="听小道消息说谷歌这么搞"></a>听小道消息说谷歌这么搞</h4><p>当你在谷歌浏览器输入域名一部分时会根据记录提示补全，如下图所示：</p>
+<p><img src="/assets/img/google.png" alt="期待"></p>
+<p>你知道吗？这个时候谷歌已经对你有意向访问的域名搞事情了。<br>因为此阶段，实际上谷歌已经大概知道你即将访问哪个页面了，此时浏览器会根据捕获的页面URL进行提前操作，如提前解析DNS，提前加载部分资源等事。具体能预先处理到何种程度，这个我还真的没有实际监控到太确切的数据，把它当成小道消息吧。</p>
+<p>这种预先处理页面的方式，不只是开发的程序猿与攻城狮们，浏览器厂商也在想办法去推动这个行为的”合法化“，也就是进入W3C的标准，当然路途坎坷，但我们还是见到了一些效果。这个效果就是我们接下来要讲的<span style="color: #f00; font-size: 16px;">Resource Hints</span></p>
+<h2 id="Resource-Hints是什么？"><a href="#Resource-Hints是什么？" class="headerlink" title="Resource Hints是什么？"></a>Resource Hints是什么？</h2><p>Resource Hints实际上就是“合法化”的提供了使用浏览器原始语言来进行的一些提前预测行为的能力，W3C页陆续增加了很多功能，主要包含如下：</p>
+<ol>
+<li>dns-prefetch</li>
+<li>preconnect</li>
+<li>prefetch</li>
+<li>prerender</li>
+<li>preload</li>
+</ol>
+<p>根据W3C的记录，最早的草案是在2014年10月21日提出的，中途经过了几十个版本的迭代（好吧，我的确是一个版本一个版本的翻来看的），最新的草案是2018年1月15日发布的。W3C也针对此进行了多次的优化，虽然现在的使用频率以及兼容性依然还不是特别的完美。</p>
+<p>我们先来看看对应的兼容性如何：</p>
+<h4 id="dns-prefetch"><a href="#dns-prefetch" class="headerlink" title="dns-prefetch"></a>dns-prefetch</h4><p><img src="/assets/img/dns-prefetch.png" alt="dns-prefetch兼容性"><br>主流浏览器兼容：</p>
+<ul>
+<li>IE10+</li>
+<li>Firefox 3.0+</li>
+<li>Chrome All</li>
+<li>Safari 5.0+</li>
+<li>Opera 15.0+</li>
+</ul>
+<h4 id="preconnect"><a href="#preconnect" class="headerlink" title="preconnect"></a>preconnect</h4><p><img src="/assets/img/preconnect.png" alt="preconnect兼容性"><br>主流浏览器兼容：</p>
+<ul>
+<li>IE15+(http 时才支持)</li>
+<li>Firefox 39.0+</li>
+<li>Chrome 46.0+</li>
+<li>Safari 11.1+</li>
+<li>Opera 33.0+</li>
+</ul>
+<h4 id="prefetch"><a href="#prefetch" class="headerlink" title="prefetch"></a>prefetch</h4><p><img src="/assets/img/prefetch.png" alt="prefetch兼容性"><br>主流浏览器兼容：</p>
+<ul>
+<li>IE11+</li>
+<li>Firefox 2.0+</li>
+<li>Chrome 8.0+</li>
+<li>Safari 全部不支持</li>
+<li>Opera 15.0+</li>
+</ul>
+<h4 id="prerender"><a href="#prerender" class="headerlink" title="prerender"></a>prerender</h4><p><img src="/assets/img/prerender.png" alt="prerender兼容性"><br>主流浏览器兼容：</p>
+<ul>
+<li>IE11，高版本也不支持</li>
+<li>Firefox 全部不支持</li>
+<li>Chrome 13.0+</li>
+<li>Safari 全部不支持</li>
+<li>Opera 15.0+</li>
+</ul>
+<h4 id="preload"><a href="#preload" class="headerlink" title="preload"></a>preload</h4><p><img src="/assets/img/preload.png" alt="preload兼容性"><br>主流浏览器兼容：</p>
+<ul>
+<li>IE17+（仅Http支持）</li>
+<li>Firefox 全部不支持</li>
+<li>Chrome 50.0+</li>
+<li>Safari 11.1+</li>
+<li>Opera 37.0+</li>
+</ul>
+<p>看完兼容性我们也发现了，实际上有一些功能兼容性并不是特别好，不过有一点比较好，浏览器自动都做的向下兼容，如果不兼容，写了标签不会影响页面的任何功能，只是不执行功能而已，所以我们还是可以放开手去用的。</p>
+<h2 id="Resource-Hints能做什么？"><a href="#Resource-Hints能做什么？" class="headerlink" title="Resource Hints能做什么？"></a>Resource Hints能做什么？</h2><p>谈了这么多，那Resource Hints具体能干什么呢？我们来一个一个的说。</p>
+<h4 id="dns-prefetch-1"><a href="#dns-prefetch-1" class="headerlink" title="dns-prefetch"></a>dns-prefetch</h4><p>谈到这里，不得不先介绍一下DNS是一个什么东西。<br>DNS(Domain Name System) - 域名和IP地址相互映射的一个分部式数据库。<br><img src="/assets/img/dns.png" alt="DNS原理"><br>当我们访问一个域名的时候，DNS系统会根据域名去一层一层的开始解析，从全世界的分布系统中查询对应的IP地址，然后通过IP地址来访问对应的网页数据。</p>
+<p>DNS解析时间会导致大量用户感知延迟。DNS解析所花费的时间是高度可变的。延迟时间范围从大约1ms(本地缓存的结果)到通常几秒钟的时间，所以为了解决此延迟，W3C提供了dns-prefetch功能。<br>我们要可以在首页添加如下语句:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;dns-prefetch&quot; href=&quot;//img13.360buyimg.com&quot;&gt;</span><br></pre></td></tr></table></figure></p>
+<p>无论是否使用到此域名，都会去解析，当实际用到时，浏览器就会无需在去解析，我们来看一下实际使用之后再次级页面加载的情况，</p>
+<p><img src="/assets/img/dnsprefetch.png" alt="dnsprefetch添加后的效果图"></p>
+<p>最直观的效果，在页面加载中少了DNS Lookup的时间，也就是解析DNS的时间。</p>
+<p>DNS与解析主要是用户访问链接之前解析域名的一种尝试，这是使用计算机正常的DNS解析机制完成的，一旦解析了域名，如果用户导航到该域名，就不会因为DNS解析时间而出现延迟，此策略比较适用的场景是，网页中会引用多域名下的信息，我们可以针对使用到的所有域名进行解析，所有这些工作都在用户读取页面时使用最少的CPU和网络资源来完成，当用户访问这些预先解析的网站时，平均会节省1-20ms的时间，更重要的是，如果用户遇到了DNS解析的“最坏情况”延迟，那对于网络延迟的提升是很显著的。</p>
+<h4 id="preconnect-1"><a href="#preconnect-1" class="headerlink" title="preconnect"></a>preconnect</h4><p>当我们调用请求时，会经历怎样的步骤呢？<br><img src="/assets/img/httppath.png" alt="https请求步骤"><br>针对实际的http请求，DNS解析一步，在上一个环节已经提前处理，那么后续的步骤我们可以进行提前处理吗？<br>preconnect功能就是为此而来的。</p>
+<ul>
+<li>针对HTTP：可以提前为URL建立早期链接，可提前完成包含DNS解析+TCP三次握手环节。</li>
+<li>针对HTTPS：可以提前为URL建立早期链接，可提前完成包括DNS解析+TCP三次握手+TLS/SSL握手环节。<br>代码如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta charset=&quot;utf-8&quot; /&gt;</span><br><span class="line">&lt;title&gt;Resource Hints Demo&lt;/title&gt;</span><br><span class="line">&lt;link rel=&quot;preconnect&quot; href=&quot;//www.jd.com&quot;&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;a href=&quot;//www.jd.com&quot;&gt;&lt;/a&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>预链接功能于存在此链接的页面放在一起。打开此页面会直接进行预链接尝试，当点击了跳转是，URL则可直接读取数据。</p>
+<p>如果你期望预链接的地址与当前网站不在同域，我们可以采用跨域方式来进行预链接。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;preconnect&quot; href=&quot;//www.jd.com&quot; crossorigin&gt;</span><br></pre></td></tr></table></figure></p>
+<p>实际添加之后与添加前，后续页面的页面请求情况对比：<br><img src="/assets/img/preconnectresult.png" alt="https请求步骤"><br>具体能节省多长时间这个会根据网络延迟来确定，上图只是做了一个加载顺序的表示，并且，随着网速的越来越快，这个差值的确也会越来越小。</p>
+<h4 id="prefetch-1"><a href="#prefetch-1" class="headerlink" title="prefetch"></a>prefetch</h4><p>既然一个内容除了获取数据之外都能提前进行，那何不直接提前加载一个文件呢？prefetch你值得拥有。<br>prefetch是一个低优先级的资源加载策略，此策略允许浏览器在后点（空闲时间）获取稍后可能需要的资源，并将它们存储在浏览器缓存中。一旦页面完成加载，他就会开始下载额外资源，如果用户点击了预先获取的链接，则会立即加载内容。<br>如果在执行预加载策略时，如果中途出现了高优先级的请求，则预加载的线程占用会立即释放，并且会将已经加载的全部删除，已让出线程来执行当前页面的内容。</p>
+<p><img src="/assets/img/prefetch-1.png" alt="prefetch资源加载流程"></p>
+<p>来看看代码的引入方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HTML: &lt;link rel=&quot;prefetch&quot; href=&quot;/uploads/images/pic.png&quot;&gt;</span><br><span class="line">HTTP Header: Link: &lt;/uploads/images/pic.png&gt;; rel=prefetch</span><br></pre></td></tr></table></figure></p>
+<p>预加载类型我们可以通过as来设置,as属性为可选属性，其可以与资源上下文通信，这样用户可以优化预加载的抓取过程。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;prefetch&quot; href=&quot;/uploads/images/pic.png&quot; as=&quot;image&quot;&gt;</span><br><span class="line">HTTP Header: Link: &lt;/uploads/images/pic.png&gt;; rel=prefetch; as=image</span><br></pre></td></tr></table></figure></p>
+<p>as包含的类型如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">引用情况	                                  预加载类型设置</span><br><span class="line">&lt;audio&gt; 	                                &lt;link rel=preload as=audio href=...&gt;</span><br><span class="line">&lt;video&gt;	                                    &lt;link rel=preload as=video href=...&gt;</span><br><span class="line">&lt;track&gt;	                                    &lt;link rel=preload as=track href=...&gt;</span><br><span class="line">&lt;script&gt;, Worker&apos;s importScripts	        &lt;link rel=preload as=script href=...&gt;</span><br><span class="line">&lt;link rel=stylesheet&gt;, CSS @import	        &lt;link rel=preload as=style href=...&gt;</span><br><span class="line">CSS @font-face	                            &lt;link rel=preload as=font href=...&gt;</span><br><span class="line">&lt;img&gt;, &lt;picture&gt;, srcset, imageset	        &lt;link rel=preload as=image href=...&gt;</span><br><span class="line">SVG&apos;s &lt;image&gt;, CSS *-image	                &lt;link rel=preload as=image href=...&gt;</span><br><span class="line">XHR, fetch	                                &lt;link rel=preload as=fetch crossorigin href=...&gt;</span><br><span class="line">Worker, SharedWorker	                    &lt;link rel=preload as=worker href=...&gt;</span><br><span class="line">&lt;embed&gt;	                                    &lt;link rel=preload as=embed href=...&gt;</span><br><span class="line">&lt;object&gt;	                                &lt;link rel=preload as=object href=...&gt;</span><br><span class="line">&lt;iframe&gt;, &lt;frame&gt;	                        &lt;link rel=preload as=document href=...&gt;</span><br></pre></td></tr></table></figure>
+<p>如果我们预加载的资源与执行代码页面存在跨域的话，我们需要配置跨域，crossorigin为一个配置参数,<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;prefetch&quot; href=&quot;//example.com/next-page.html&quot; as=&quot;html&quot; crossorigin=&quot;use-credentials&quot;&gt;</span><br></pre></td></tr></table></figure></p>
+<p>CORS配置，详细可参考<a href="https://html.spec.whatwg.org/multipage/urls-and-fetching.html#cors-settings-attributes" target="_blank" rel="noopener">CORS配置</a>：<br><img src="/assets/img/cors.png" alt="CORS配置"><br>首页我们预加载了一个base.js：<br><img src="/assets/img/prefetch-eg1.png" alt="首页提前加载base"><br>进入二级页面之后，base.js直接从缓存读取，<br><img src="/assets/img/prefetch-eg2.png" alt="首页提前加载base"></p>
+<p>参考文献：</p>
+<ul>
+<li>W3C官方文档：<a href="https://www.w3.org/TR/resource-hints/" target="_blank" rel="noopener">https://www.w3.org/TR/resource-hints/</a></li>
+<li>DNS原理：<a href="http://blog.51cto.com/369369/812889" target="_blank" rel="noopener">http://blog.51cto.com/369369/812889</a></li>
+<li>CORS配置：<a href="https://html.spec.whatwg.org/multipage/urls-and-fetching.html#cors-settings-attributes" target="_blank" rel="noopener">https://html.spec.whatwg.org/multipage/urls-and-fetching.html#cors-settings-attributes</a></li>
+<li>Resource Hints：<a href="https://www.keycdn.com/blog/resource-hints/" target="_blank" rel="noopener">https://www.keycdn.com/blog/resource-hints/</a></li>
+<li>Understanding prefetching and how Facebook uses prefetching：<a href="https://www.facebook.com/business/help/1514372351922333" target="_blank" rel="noopener">https://www.facebook.com/business/help/1514372351922333</a></li>
+</ul>
+
+    </div>
+    <p class="post-meta">
+        <span class="post-cat">分类：
+            <a class="cat-link" href="/categories/技术仓库/">技术仓库</a>
+        </span>
+        <span class="post-tags">
+            标签：
+            
+    
+        <a href="/tags/技术/" title="技术">技术</a>
+    
+
+        </span>
+    </p>
+</article>
+<!-- 分享按钮 -->
+
+  <div class="article-share clearfix text-center">
+    <div class="share-area">
+      <span class="share-txt">分享到：</span>
+      <a href="javascript: window.open('http://service.weibo.com/share/share.php?url=' + encodeURIComponent(location.href) + '&title=' + document.title + '&language=zh_cn');" class="share-icon weibo"></a>
+      <a href="javascript: alert('请复制链接到微信并发送');" class="share-icon wechat"></a>
+      <a href="javascript: window.open('http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + encodeURIComponent(location.href) + '&title=' + document.title);" class="share-icon qqzone"></a>
+      <a href="javascript: window.open('http://connect.qq.com/widget/shareqq/index.html?url=' + encodeURIComponent(location.href) + '&desc=Jelon个人博客&title=' + document.title + '&callback=' + encodeURIComponent(location.href));" class="share-icon qq"></a>
+      <a href="javascript: window.open('http://shuo.douban.com/!service/share?href=' + encodeURIComponent(location.href) + '&name=' + document.title + '&text=' + document.title);" class="share-icon douban"></a>
+    </div>
+  </div>
+
+
+<!-- 上一篇/下一篇 -->
+
+<div class="article-nav clearfix">
+    
+    <span class="prev fl">
+        上一篇<br >
+        <a href="javascript: void(0);">没有上一篇了</a>
+    </span>
+    
+
+    
+    <span class="next fr">
+        下一篇<br >
+        <a href="/2018/07/13/2018-07-13-pwa/">
+            
+                聊聊PWA
+            
+        </a>
+    </span>
+    
+</div>
+
+<!-- 文章评论 -->
+
+  <script src="/js/comment.js"></script>
+  <div id="comments" class="comment">
+    <!--
+    <div class="sign-bar">
+      GitHub 已登录!
+      <span class="sign-link">登出</span>
+    </div>
+    <section class="box">
+      <div class="com-avatar"><img src="/img/jelon.jpg" alt="avatar"></div>
+      <div class="com-text">
+        <div class="main">
+          <textarea class="text-area-edited show" placeholder="欢迎评论！"></textarea>
+          <div class="text-area-preview"></div>
+        </div>
+        <div class="switch">
+          <div class="switch-item on">编辑</div>
+          <div class="switch-item">预览</div>
+        </div>
+        <div class="button">提交</div>
+      </div>
+    </section>
+    <section class="tips">注：评论支持 markdown 语法！</section>
+    <section class="list-wrap">
+      <ul class="list">
+        <li>
+          <div class="user-avatar">
+            <a href="/">
+              <img src="/img/jelon.jpg" alt="user-avatar">
+            </a>
+          </div>
+          <div class="user-comment">
+            <div class="user-comment-header">
+              <span class="post-name">张德龙</span>
+              <span class="post-time">2017年12月12日</span>
+              <span class="like liked">已赞</span>
+              <span class="like-num">2</span>
+            </div>
+            <div class="user-comment-body">333333</div>
+          </div>
+        </li>
+        <li>
+          <div class="user-avatar">
+            <a href="/">
+              <img src="/img/jelon.jpg" alt="user-avatar">
+            </a>
+          </div>
+          <div class="user-comment">
+            <div class="user-comment-header">
+              <span class="post-name">刘德华</span>
+              <span class="post-time">2017年12月12日</span>
+              <span class="like">点赞</span>
+              <span class="like-num">2</span>
+            </div>
+            <div class="user-comment-body">vvvvv</div>
+          </div>
+        </li>
+      </ul>
+      <div class="page-nav">
+        <a href="javascript: void(0);" class="item">1</a>
+        <a href="javascript: void(0);" class="item">2</a>
+        <a href="javascript: void(0);" class="item current">3</a>
+      </div>
+    </section>
+    -->
+  </div>
+  <script>
+  JELON.Comment({
+    container: 'comments',
+    label: '2018-08-18-resource-hints',
+    owner: 'leofe',
+    repo: 'leofe.github.io',
+    clientId: 'c5f228f544d943181242',
+    clientSecret: 'df3363ed741c2d6768baacf3cd0055474f3432d7'
+  });
+  </script>
+
+
+            </div>
+
+        </section>
+        <!-- 侧栏部分 -->
+<aside class="sidebar">
+    <section class="widget">
+        <h3 class="widget-hd"><strong>文章分类</strong></h3>
+        <!-- 文章分类 -->
+<ul class="widget-bd">
+    
+    <li>
+        <a href="/categories/技术仓库/">技术仓库</a>
+        <span class="badge">(15)</span>
+    </li>
+    
+    <li>
+        <a href="/categories/书单/">书单</a>
+        <span class="badge">(1)</span>
+    </li>
+    
+</ul>
+    </section>
+
+    
+    <section class="widget">
+        <h3 class="widget-hd"><strong>热门标签</strong></h3>
+        <!-- 文章标签 -->
+<div class="widget-bd tag-wrap">
+  
+    <a class="tag-item" href="/tags/react/" title="react">react (3)</a>
+  
+    <a class="tag-item" href="/tags/book/" title="book">book (1)</a>
+  
+    <a class="tag-item" href="/tags/nodeJS/" title="nodeJS">nodeJS (1)</a>
+  
+    <a class="tag-item" href="/tags/WebGL/" title="WebGL">WebGL (5)</a>
+  
+    <a class="tag-item" href="/tags/js/" title="js">js (3)</a>
+  
+    <a class="tag-item" href="/tags/技术/" title="技术">技术 (1)</a>
+  
+    <a class="tag-item" href="/tags/Git/" title="Git">Git (1)</a>
+  
+    <a class="tag-item" href="/tags/PWA/" title="PWA">PWA (1)</a>
+  
+</div>
+    </section>
+    
+
+    
+
+    
+    <!-- 友情链接 -->
+    <section class="widget">
+        <h3 class="widget-hd"><strong>友情链接</strong></h3>
+        <!-- 文章分类 -->
+<ul class="widget-bd">
+    
+        <li>
+            <a href="https://jdc.jd.com" target="_blank" title="京东设计中心">JDC</a>
+        </li>
+    
+</ul>
+    </section>
+    
+</aside>
+<!-- / 侧栏部分 -->
+    </div>
+
+    <!-- 博客底部 -->
+    <footer class="footer">
+    &copy;
+    
+        2016-2018
+    
+
+    <a href="/">Leo's Knowledge Store</a>
+</footer>
+<div class="back-to-top" id="JELON__backToTop" title="返回顶部">返回顶部</div>
+
+    <!--博客js脚本 -->
+    <!-- 这里放网站js脚本 -->
+<script src="/js/main.js"></script>
+<script src="/js/preload.js"></script>
+
+	<script type="text/javascript">
+		window.addEventListener('load', function () {
+			if('serviceWorker' in navigator) {
+				navigator.serviceWorker.register('/sw.js?'+new Date().getTime(),{scope: '/'})
+				.then(reg => {
+					console.log('Server worker registered!');
+				})
+				.catch(err => {
+					console.log('Server worker registered Fail!', err)
+				})
+			}
+		});    
+	</script>
+</body>
+</html>

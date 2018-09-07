@@ -9,6 +9,7 @@
         rsTag.setAttribute('rel', 'prefetch');
 
         rsTag.setAttribute('href', resource);
+        rsTag.setAttribute('as', 'html');
         head.appendChild(rsTag);
     }
 })([
