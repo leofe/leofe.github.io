@@ -141,24 +141,37 @@
 <li>preload</li>
 </ol>
 <p>根据W3C的记录，最早的草案是在2014年10月21日提出的，中途经过了几十个版本的迭代（好吧，我的确是一个版本一个版本的翻来看的），最新的草案是2018年1月15日发布的。W3C也针对此进行了多次的优化，虽然现在的使用频率以及兼容性依然还不是特别的完美。</p>
-<p>我们先来看看对应的兼容性如何：</p>
-<h4 id="dns-prefetch"><a href="#dns-prefetch" class="headerlink" title="dns-prefetch"></a>dns-prefetch</h4><p><img src="/assets/img/dns-prefetch.png" alt="dns-prefetch兼容性"><br>主流浏览器兼容：</p>
+<p>看完兼容性我们也发现了，实际上有一些功能兼容性并不是特别好，不过有一点比较好，浏览器自动都做的向下兼容，如果不兼容，写了标签不会影响页面的任何功能，只是不执行功能而已，所以我们还是可以放开手去用的。</p>
+<h2 id="Resource-Hints能做什么？"><a href="#Resource-Hints能做什么？" class="headerlink" title="Resource Hints能做什么？"></a>Resource Hints能做什么？</h2><p>谈了这么多，那Resource Hints具体能干什么呢？我们来一个一个的说。</p>
+<h4 id="dns-prefetch"><a href="#dns-prefetch" class="headerlink" title="dns-prefetch"></a>dns-prefetch</h4><p>谈到这里，不得不先介绍一下DNS是一个什么东西。<br>DNS(Domain Name System) - 域名和IP地址相互映射的一个分部式数据库。<br><img src="/assets/img/dns.png" alt="DNS原理"><br>当我们访问一个域名的时候，DNS系统会根据域名去一层一层的开始解析，从全世界的分布系统中查询对应的IP地址，然后通过IP地址来访问对应的网页数据。</p>
+<p>DNS解析时间会导致大量用户感知延迟。DNS解析所花费的时间是高度可变的。延迟时间范围从大约1ms(本地缓存的结果)到通常几秒钟的时间，所以为了解决此延迟，W3C提供了dns-prefetch功能，兼容性如图：<br><img src="/assets/img/dns-prefetch.png" alt="dns-prefetch兼容性"><br>主流浏览器兼容：</p>
 <ul>
 <li>IE10+</li>
 <li>Firefox 3.0+</li>
 <li>Chrome All</li>
 <li>Safari 5.0+</li>
-<li>Opera 15.0+</li>
+<li>Opera 15.0+<br>我们要可以在首页添加如下语句:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;dns-prefetch&quot; href=&quot;//img13.360buyimg.com&quot;&gt;</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<h4 id="preconnect"><a href="#preconnect" class="headerlink" title="preconnect"></a>preconnect</h4><p><img src="/assets/img/preconnect.png" alt="preconnect兼容性"><br>主流浏览器兼容：</p>
+<p>无论是否使用到此域名，都会去解析，当实际用到时，浏览器就会无需在去解析，我们来看一下实际使用之后再次级页面加载的情况，</p>
+<p><img src="/assets/img/dnsprefetch.png" alt="dnsprefetch添加后的效果图"></p>
+<p>最直观的效果，在页面加载中少了DNS Lookup的时间，也就是解析DNS的时间。</p>
+<p>DNS与解析主要是用户访问链接之前解析域名的一种尝试，这是使用计算机正常的DNS解析机制完成的，一旦解析了域名，如果用户导航到该域名，就不会因为DNS解析时间而出现延迟，此策略比较适用的场景是，网页中会引用多域名下的信息，我们可以针对使用到的所有域名进行解析，所有这些工作都在用户读取页面时使用最少的CPU和网络资源来完成，当用户访问这些预先解析的网站时，平均会节省1-20ms的时间，更重要的是，如果用户遇到了DNS解析的“最坏情况”延迟，那对于网络延迟的提升是很显著的。</p>
+<h4 id="preconnect"><a href="#preconnect" class="headerlink" title="preconnect"></a>preconnect</h4><p>当我们调用请求时，会经历怎样的步骤呢？<br><img src="/assets/img/httppath.png" alt="https请求步骤"><br>针对实际的http请求，DNS解析一步，在上一个环节已经提前处理，那么后续的步骤我们可以进行提前处理吗？<br>preconnect功能就是为此而来的。</p>
 <ul>
+<li>针对HTTP：可以提前为URL建立早期链接，可提前完成包含DNS解析+TCP三次握手环节。</li>
+<li>针对HTTPS：可以提前为URL建立早期链接，可提前完成包括DNS解析+TCP三次握手+TLS/SSL握手环节。<br>在来看看其兼容性如何：<br><img src="/assets/img/preconnect.png" alt="preconnect兼容性"><br>主流浏览器兼容：</li>
 <li>IE15+(http 时才支持)</li>
 <li>Firefox 39.0+</li>
 <li>Chrome 46.0+</li>
 <li>Safari 11.1+</li>
-<li>Opera 33.0+</li>
+<li>Opera 33.0+<br>使用的代码如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta charset=&quot;utf-8&quot; /&gt;</span><br><span class="line">&lt;title&gt;Resource Hints Demo&lt;/title&gt;</span><br><span class="line">&lt;link rel=&quot;preconnect&quot; href=&quot;//www.jd.com&quot;&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;a href=&quot;//www.jd.com&quot;&gt;&lt;/a&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<h4 id="prefetch"><a href="#prefetch" class="headerlink" title="prefetch"></a>prefetch</h4><p><img src="/assets/img/prefetch.png" alt="prefetch兼容性"><br>主流浏览器兼容：</p>
+<p>预链接功能于存在此链接的页面放在一起。打开此页面会直接进行预链接尝试，当点击了跳转是，URL则可直接读取数据。</p>
+<p>如果你期望预链接的地址与当前网站不在同域，我们可以采用跨域方式来进行预链接。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;preconnect&quot; href=&quot;//www.jd.com&quot; crossorigin&gt;</span><br></pre></td></tr></table></figure></p>
+<p>实际添加之后与添加前，后续页面的页面请求情况对比：<br><img src="/assets/img/preconnectresult.png" alt="https请求步骤"><br>具体能节省多长时间这个会根据网络延迟来确定，上图只是做了一个加载顺序的表示，并且，随着网速的越来越快，这个差值的确也会越来越小。</p>
+<h4 id="prefetch"><a href="#prefetch" class="headerlink" title="prefetch"></a>prefetch</h4><p>既然一个内容除了获取数据之外都能提前进行，那何不直接提前加载一个文件呢？prefetch你值得拥有，兼容性如下图：<br><img src="/assets/img/prefetch.png" alt="prefetch兼容性"><br>主流浏览器兼容：</p>
 <ul>
 <li>IE11+</li>
 <li>Firefox 2.0+</li>
@@ -166,40 +179,7 @@
 <li>Safari 全部不支持</li>
 <li>Opera 15.0+</li>
 </ul>
-<h4 id="prerender"><a href="#prerender" class="headerlink" title="prerender"></a>prerender</h4><p><img src="/assets/img/prerender.png" alt="prerender兼容性"><br>主流浏览器兼容：</p>
-<ul>
-<li>IE11，高版本也不支持</li>
-<li>Firefox 全部不支持</li>
-<li>Chrome 13.0+</li>
-<li>Safari 全部不支持</li>
-<li>Opera 15.0+</li>
-</ul>
-<h4 id="preload"><a href="#preload" class="headerlink" title="preload"></a>preload</h4><p><img src="/assets/img/preload.png" alt="preload兼容性"><br>主流浏览器兼容：</p>
-<ul>
-<li>IE17+（仅Http支持）</li>
-<li>Firefox 全部不支持</li>
-<li>Chrome 50.0+</li>
-<li>Safari 11.1+</li>
-<li>Opera 37.0+</li>
-</ul>
-<p>看完兼容性我们也发现了，实际上有一些功能兼容性并不是特别好，不过有一点比较好，浏览器自动都做的向下兼容，如果不兼容，写了标签不会影响页面的任何功能，只是不执行功能而已，所以我们还是可以放开手去用的。</p>
-<h2 id="Resource-Hints能做什么？"><a href="#Resource-Hints能做什么？" class="headerlink" title="Resource Hints能做什么？"></a>Resource Hints能做什么？</h2><p>谈了这么多，那Resource Hints具体能干什么呢？我们来一个一个的说。</p>
-<h4 id="dns-prefetch-1"><a href="#dns-prefetch-1" class="headerlink" title="dns-prefetch"></a>dns-prefetch</h4><p>谈到这里，不得不先介绍一下DNS是一个什么东西。<br>DNS(Domain Name System) - 域名和IP地址相互映射的一个分部式数据库。<br><img src="/assets/img/dns.png" alt="DNS原理"><br>当我们访问一个域名的时候，DNS系统会根据域名去一层一层的开始解析，从全世界的分布系统中查询对应的IP地址，然后通过IP地址来访问对应的网页数据。</p>
-<p>DNS解析时间会导致大量用户感知延迟。DNS解析所花费的时间是高度可变的。延迟时间范围从大约1ms(本地缓存的结果)到通常几秒钟的时间，所以为了解决此延迟，W3C提供了dns-prefetch功能。<br>我们要可以在首页添加如下语句:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;dns-prefetch&quot; href=&quot;//img13.360buyimg.com&quot;&gt;</span><br></pre></td></tr></table></figure></p>
-<p>无论是否使用到此域名，都会去解析，当实际用到时，浏览器就会无需在去解析，我们来看一下实际使用之后再次级页面加载的情况，</p>
-<p><img src="/assets/img/dnsprefetch.png" alt="dnsprefetch添加后的效果图"></p>
-<p>最直观的效果，在页面加载中少了DNS Lookup的时间，也就是解析DNS的时间。</p>
-<p>DNS与解析主要是用户访问链接之前解析域名的一种尝试，这是使用计算机正常的DNS解析机制完成的，一旦解析了域名，如果用户导航到该域名，就不会因为DNS解析时间而出现延迟，此策略比较适用的场景是，网页中会引用多域名下的信息，我们可以针对使用到的所有域名进行解析，所有这些工作都在用户读取页面时使用最少的CPU和网络资源来完成，当用户访问这些预先解析的网站时，平均会节省1-20ms的时间，更重要的是，如果用户遇到了DNS解析的“最坏情况”延迟，那对于网络延迟的提升是很显著的。</p>
-<h4 id="preconnect-1"><a href="#preconnect-1" class="headerlink" title="preconnect"></a>preconnect</h4><p>当我们调用请求时，会经历怎样的步骤呢？<br><img src="/assets/img/httppath.png" alt="https请求步骤"><br>针对实际的http请求，DNS解析一步，在上一个环节已经提前处理，那么后续的步骤我们可以进行提前处理吗？<br>preconnect功能就是为此而来的。</p>
-<ul>
-<li>针对HTTP：可以提前为URL建立早期链接，可提前完成包含DNS解析+TCP三次握手环节。</li>
-<li>针对HTTPS：可以提前为URL建立早期链接，可提前完成包括DNS解析+TCP三次握手+TLS/SSL握手环节。<br>代码如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;meta charset=&quot;utf-8&quot; /&gt;</span><br><span class="line">&lt;title&gt;Resource Hints Demo&lt;/title&gt;</span><br><span class="line">&lt;link rel=&quot;preconnect&quot; href=&quot;//www.jd.com&quot;&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;a href=&quot;//www.jd.com&quot;&gt;&lt;/a&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>预链接功能于存在此链接的页面放在一起。打开此页面会直接进行预链接尝试，当点击了跳转是，URL则可直接读取数据。</p>
-<p>如果你期望预链接的地址与当前网站不在同域，我们可以采用跨域方式来进行预链接。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;preconnect&quot; href=&quot;//www.jd.com&quot; crossorigin&gt;</span><br></pre></td></tr></table></figure></p>
-<p>实际添加之后与添加前，后续页面的页面请求情况对比：<br><img src="/assets/img/preconnectresult.png" alt="https请求步骤"><br>具体能节省多长时间这个会根据网络延迟来确定，上图只是做了一个加载顺序的表示，并且，随着网速的越来越快，这个差值的确也会越来越小。</p>
-<h4 id="prefetch-1"><a href="#prefetch-1" class="headerlink" title="prefetch"></a>prefetch</h4><p>既然一个内容除了获取数据之外都能提前进行，那何不直接提前加载一个文件呢？prefetch你值得拥有。<br>prefetch是一个低优先级的资源加载策略，此策略允许浏览器在后点（空闲时间）获取稍后可能需要的资源，并将它们存储在浏览器缓存中。一旦页面完成加载，他就会开始下载额外资源，如果用户点击了预先获取的链接，则会立即加载内容。<br>如果在执行预加载策略时，如果中途出现了高优先级的请求，则预加载的线程占用会立即释放，并且会将已经加载的全部删除，已让出线程来执行当前页面的内容。</p>
+<p>prefetch是一个低优先级的资源加载策略，此策略允许浏览器在后点（空闲时间）获取稍后可能需要的资源，并将它们存储在浏览器缓存中。一旦页面完成加载，他就会开始下载额外资源，如果用户点击了预先获取的链接，则会立即加载内容。<br>如果在执行预加载策略时，如果中途出现了高优先级的请求，则预加载的线程占用会立即释放，并且会将已经加载的全部删除，已让出线程来执行当前页面的内容。</p>
 <p><img src="/assets/img/prefetch-1.png" alt="prefetch资源加载流程"></p>
 <p>来看看代码的引入方式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">HTML: &lt;link rel=&quot;prefetch&quot; href=&quot;/uploads/images/pic.png&quot;&gt;</span><br><span class="line">HTTP Header: Link: &lt;/uploads/images/pic.png&gt;; rel=prefetch</span><br></pre></td></tr></table></figure></p>
 <p>预加载类型我们可以通过as来设置,as属性为可选属性，其可以与资源上下文通信，这样用户可以优化预加载的抓取过程。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;prefetch&quot; href=&quot;/uploads/images/pic.png&quot; as=&quot;image&quot;&gt;</span><br><span class="line">HTTP Header: Link: &lt;/uploads/images/pic.png&gt;; rel=prefetch; as=image</span><br></pre></td></tr></table></figure></p>
@@ -207,12 +187,60 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">引用情况	                                  预加载类型设置</span><br><span class="line">&lt;audio&gt; 	                                &lt;link rel=preload as=audio href=...&gt;</span><br><span class="line">&lt;video&gt;	                                    &lt;link rel=preload as=video href=...&gt;</span><br><span class="line">&lt;track&gt;	                                    &lt;link rel=preload as=track href=...&gt;</span><br><span class="line">&lt;script&gt;, Worker&apos;s importScripts	        &lt;link rel=preload as=script href=...&gt;</span><br><span class="line">&lt;link rel=stylesheet&gt;, CSS @import	        &lt;link rel=preload as=style href=...&gt;</span><br><span class="line">CSS @font-face	                            &lt;link rel=preload as=font href=...&gt;</span><br><span class="line">&lt;img&gt;, &lt;picture&gt;, srcset, imageset	        &lt;link rel=preload as=image href=...&gt;</span><br><span class="line">SVG&apos;s &lt;image&gt;, CSS *-image	                &lt;link rel=preload as=image href=...&gt;</span><br><span class="line">XHR, fetch	                                &lt;link rel=preload as=fetch crossorigin href=...&gt;</span><br><span class="line">Worker, SharedWorker	                    &lt;link rel=preload as=worker href=...&gt;</span><br><span class="line">&lt;embed&gt;	                                    &lt;link rel=preload as=embed href=...&gt;</span><br><span class="line">&lt;object&gt;	                                &lt;link rel=preload as=object href=...&gt;</span><br><span class="line">&lt;iframe&gt;, &lt;frame&gt;	                        &lt;link rel=preload as=document href=...&gt;</span><br></pre></td></tr></table></figure>
 <p>如果我们预加载的资源与执行代码页面存在跨域的话，我们需要配置跨域，crossorigin为一个配置参数,<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;prefetch&quot; href=&quot;//example.com/next-page.html&quot; as=&quot;html&quot; crossorigin=&quot;use-credentials&quot;&gt;</span><br></pre></td></tr></table></figure></p>
 <p>CORS配置，详细可参考<a href="https://html.spec.whatwg.org/multipage/urls-and-fetching.html#cors-settings-attributes" target="_blank" rel="noopener">CORS配置</a>：<br><img src="/assets/img/cors.png" alt="CORS配置"><br>首页我们预加载了一个base.js：<br><img src="/assets/img/prefetch-eg1.png" alt="首页提前加载base"><br>进入二级页面之后，base.js直接从缓存读取，<br><img src="/assets/img/prefetch-eg2.png" alt="首页提前加载base"></p>
+<h4 id="prerender"><a href="#prerender" class="headerlink" title="prerender"></a>prerender</h4><p>我们已经从各方面都提前处理了，什么？还不知足，那咱们来个重量级的。<br>我们直接把接下来可能访问的页面直接提前渲染了如何？</p>
+<p>prerender会收集用户接下来要访问的页面，并且在浏览器中创建一个隐藏tab，并且在隐藏Tab中提前加载页面。当跳转到此页面时，相当于直接切换到隐藏tab。<br>来看看功能强大的prerender兼容性如何：<br><img src="/assets/img/prerender.png" alt="prerender兼容性"><br>主流浏览器兼容：</p>
+<ul>
+<li>IE11，高版本也不支持</li>
+<li>Firefox 全部不支持</li>
+<li>Chrome 13.0+</li>
+<li>Safari 全部不支持</li>
+<li>Opera 15.0+</li>
+</ul>
+<p>使用方式如prefetch一样，依旧是使用link标签即可：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;prerender&quot; href=&quot;https://www.jd.com&quot;&gt;</span><br></pre></td></tr></table></figure></p>
+<p>整个prerender运行流程如下图：<br><img src="/assets/img/prerender-diagram.png" alt="prerender流程图"></p>
+<p>创建prerender页面过程：<br>当访问页面是遇到<link rel="”prerender”">资源标签时，会启动prerender,ResourceDispatcherHost接收到一个resource类型为::Prerender的资源请求–但是这个请求永远不会以网络请求发送，相反它会用作创建PrerenderContents的请求信号，并且取消请求本身。<br>PrerenderContents存储于PrerenderManager中，PrerenderManager中会统一管理PrerenderContents目录，允许保留最近创建的少量PrerenderContents，当前的PrerenderContents保留一个页面最多只能30ms，这个时间谷歌更新可能会变化，如果容量达到存储上线，系统会将旧页面删除回收。</p>
+<p>虽然此功能只是谷歌更新个一个小功能，但是因为一些问题使得此功能变得复杂化：</p>
+<ol>
+<li>最小化资源争用。</li>
+<li>处理动态媒体[视频、音频、插件、画布]</li>
+<li>取消某些情况下的页面。</li>
+<li>最小化服务器的副作用。</li>
+<li><p>共享本地存储[cookie、sessionStorage等]</p>
+<p> 注意：预渲染虽然美好，但是会造成比较大的流量以及性能的损耗，所以浏览器默认关闭支持此功能。</p>
+</li>
+</ol>
+<p>如果我们需要使用，可以通过以下步骤开启：</p>
+<ol>
+<li>打开高级设置。</li>
+<li>开启如图功能即可。<br><img src="/assets/img/prerender1.png" alt="prerender开启功能"></li>
+</ol>
+<p>在预渲染的时候，浏览器的开发者工具是无法监控到具体流程的。如果需要监控，我们需要访问浏览器的：chrome://net-internals/#prerender功能。</p>
+<p><img src="/assets/img/prerender2.png" alt="prerender检测效果"></p>
+<h4 id="preload"><a href="#preload" class="headerlink" title="preload"></a>preload</h4><p>其实浏览器能提前帮忙做的事情已经做的差不多了，不过W3C不满足，又提供了一个preload，preload这又是什么呢？<br>preload也是加载资源的功能，但区别于prefetch的是，prefetch的目的在于针对即将访问的页面使用低优先级来提前预加载资源，而preload则会针对当前页面使用高优先级来加载资源，如字体文件，图片等，但值得注意的是，它不会阻塞onload事件的执行。</p>
+<p>preload兼容性如下图：<br><img src="/assets/img/preload.png" alt="preload兼容性"><br>主流浏览器兼容：</p>
+<ul>
+<li>IE17+（仅Http支持）</li>
+<li>Firefox 全部不支持</li>
+<li>Chrome 50.0+</li>
+<li>Safari 11.1+</li>
+<li>Opera 37.0+</li>
+</ul>
+<p>引用的方式与prefetch一直，甚至as以及corssorigin配置也一直，可参考上文：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=“preload” href=“./js/base.js” as=“script”&gt;</span><br></pre></td></tr></table></figure></p>
+<p>当页面执行preload加载文件时，不会阻碍其他文件的加载，<br><img src="/assets/img/preload1.png" alt="preload加载效果图"></p>
+<p>如果系统中存在字体的话，会出现字体闪动的问题，因字体资源普遍都比较大，所以此时我们可以使用preload来预加载字体，这样可以很好的解决页面闪烁的问题。</p>
+<p>因为提前缓存文件会对用户的流量造成浪费，所以浏览器在预加载文件后的3s内没有使用的此文件会提示警告错误。</p>
+<p><img src="/assets/img/preload2.png" alt="preload加载效果图"></p>
+<p>但很多情况下我们可能需要动态来添加预加载的内容，我们可以使用如下方式来动态添加:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">preload: function (srcList) &#123;</span><br><span class="line">    for (var i = 0; i &lt; srcList.length; i++) &#123;</span><br><span class="line">        var resource = srcList[i].replace(/http:|https:/, &apos;&apos;);</span><br><span class="line">        var head = document.getElementsByTagName(&apos;head&apos;)[0];</span><br><span class="line">        var rsTag = document.createElement(&apos;link&apos;);</span><br><span class="line">        rsTag.setAttribute(&apos;rel&apos;, &apos;prefetch&apos;);</span><br><span class="line">        rsTag.setAttribute(&apos;href&apos;, resource);</span><br><span class="line">        head.appendChild(rsTag);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure></p>
+<p>但因为功能的性质不同，所以也不是所有内容都可以动态添加的，其实可以动态添加的主要包括：prefetch、preconnect以及prerender。</p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>Resource Hints包含的功能大概让大家了解了一下，当然大家有人可能已经用到了，也可能未用到，但不可否认，在国内的浏览器大环境下的确兼容性不够好，国外的大多数网站都已经采用个各种方式的预加载策略，所以前端大大们，我们如果没有使用过的，也可以尝试使用一下，因为如果不兼容也不会出现问题，何乐而不为呢？</p>
 <p>参考文献：</p>
 <ul>
 <li>W3C官方文档：<a href="https://www.w3.org/TR/resource-hints/" target="_blank" rel="noopener">https://www.w3.org/TR/resource-hints/</a></li>
 <li>DNS原理：<a href="http://blog.51cto.com/369369/812889" target="_blank" rel="noopener">http://blog.51cto.com/369369/812889</a></li>
 <li>CORS配置：<a href="https://html.spec.whatwg.org/multipage/urls-and-fetching.html#cors-settings-attributes" target="_blank" rel="noopener">https://html.spec.whatwg.org/multipage/urls-and-fetching.html#cors-settings-attributes</a></li>
 <li>Resource Hints：<a href="https://www.keycdn.com/blog/resource-hints/" target="_blank" rel="noopener">https://www.keycdn.com/blog/resource-hints/</a></li>
+<li>Prerender： <a href="http://www.chromium.org/developers/design-documents/prerender" target="_blank" rel="noopener">http://www.chromium.org/developers/design-documents/prerender</a></li>
+<li>Prerender：<a href="https://www.smashingmagazine.com/2016/02/preload-what-is-it-good-for/" target="_blank" rel="noopener">https://www.smashingmagazine.com/2016/02/preload-what-is-it-good-for/</a></li>
 <li>Understanding prefetching and how Facebook uses prefetching：<a href="https://www.facebook.com/business/help/1514372351922333" target="_blank" rel="noopener">https://www.facebook.com/business/help/1514372351922333</a></li>
 </ul>
 
@@ -381,13 +409,13 @@
   
     <a class="tag-item" href="/tags/nodeJS/" title="nodeJS">nodeJS (1)</a>
   
-    <a class="tag-item" href="/tags/js/" title="js">js (3)</a>
-  
     <a class="tag-item" href="/tags/WebGL/" title="WebGL">WebGL (5)</a>
   
-    <a class="tag-item" href="/tags/Git/" title="Git">Git (1)</a>
+    <a class="tag-item" href="/tags/js/" title="js">js (3)</a>
   
     <a class="tag-item" href="/tags/PWA/" title="PWA">PWA (1)</a>
+  
+    <a class="tag-item" href="/tags/Git/" title="Git">Git (1)</a>
   
     <a class="tag-item" href="/tags/技术/" title="技术">技术 (1)</a>
   
