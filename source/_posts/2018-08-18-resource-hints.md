@@ -49,52 +49,6 @@ Resource Hints实际上就是“合法化”的提供了使用浏览器原始语
 
 根据W3C的记录，最早的草案是在2014年10月21日提出的，中途经过了几十个版本的迭代（好吧，我的确是一个版本一个版本的翻来看的），最新的草案是2018年1月15日发布的。W3C也针对此进行了多次的优化，虽然现在的使用频率以及兼容性依然还不是特别的完美。
 
-我们先来看看对应的兼容性如何：
-#### dns-prefetch 
-![dns-prefetch兼容性](/assets/img/dns-prefetch.png)
-主流浏览器兼容：
-- IE10+
-- Firefox 3.0+
-- Chrome All
-- Safari 5.0+
-- Opera 15.0+
-
-#### preconnect
-![preconnect兼容性](/assets/img/preconnect.png)
-主流浏览器兼容：
-- IE15+(http 时才支持)
-- Firefox 39.0+
-- Chrome 46.0+
-- Safari 11.1+
-- Opera 33.0+
-
-#### prefetch
-![prefetch兼容性](/assets/img/prefetch.png)
-主流浏览器兼容：
-- IE11+
-- Firefox 2.0+
-- Chrome 8.0+
-- Safari 全部不支持
-- Opera 15.0+
-
-#### prerender
-![prerender兼容性](/assets/img/prerender.png)
-主流浏览器兼容：
-- IE11，高版本也不支持
-- Firefox 全部不支持
-- Chrome 13.0+
-- Safari 全部不支持
-- Opera 15.0+
-
-#### preload
-![preload兼容性](/assets/img/preload.png)
-主流浏览器兼容：
-- IE17+（仅Http支持）
-- Firefox 全部不支持
-- Chrome 50.0+
-- Safari 11.1+
-- Opera 37.0+
-
 看完兼容性我们也发现了，实际上有一些功能兼容性并不是特别好，不过有一点比较好，浏览器自动都做的向下兼容，如果不兼容，写了标签不会影响页面的任何功能，只是不执行功能而已，所以我们还是可以放开手去用的。
 
 ## Resource Hints能做什么？
@@ -106,7 +60,14 @@ DNS(Domain Name System) - 域名和IP地址相互映射的一个分部式数据�
 ![DNS原理](/assets/img/dns.png)
 当我们访问一个域名的时候，DNS系统会根据域名去一层一层的开始解析，从全世界的分布系统中查询对应的IP地址，然后通过IP地址来访问对应的网页数据。
 
-DNS解析时间会导致大量用户感知延迟。DNS解析所花费的时间是高度可变的。延迟时间范围从大约1ms(本地缓存的结果)到通常几秒钟的时间，所以为了解决此延迟，W3C提供了dns-prefetch功能。
+DNS解析时间会导致大量用户感知延迟。DNS解析所花费的时间是高度可变的。延迟时间范围从大约1ms(本地缓存的结果)到通常几秒钟的时间，所以为了解决此延迟，W3C提供了dns-prefetch功能，兼容性如图：
+![dns-prefetch兼容性](/assets/img/dns-prefetch.png)
+主流浏览器兼容：
+- IE10+
+- Firefox 3.0+
+- Chrome All
+- Safari 5.0+
+- Opera 15.0+
 我们要可以在首页添加如下语句:
 ```
 <link rel="dns-prefetch" href="//img13.360buyimg.com">
@@ -126,7 +87,15 @@ DNS与解析主要是用户访问链接之前解析域名的一种尝试，这�
 preconnect功能就是为此而来的。
 - 针对HTTP：可以提前为URL建立早期链接，可提前完成包含DNS解析+TCP三次握手环节。
 - 针对HTTPS：可以提前为URL建立早期链接，可提前完成包括DNS解析+TCP三次握手+TLS/SSL握手环节。
-代码如下：
+在来看看其兼容性如何：
+![preconnect兼容性](/assets/img/preconnect.png)
+主流浏览器兼容：
+- IE15+(http 时才支持)
+- Firefox 39.0+
+- Chrome 46.0+
+- Safari 11.1+
+- Opera 33.0+
+使用的代码如下：
 ```
 <!DOCTYPE html>
 <html>
@@ -152,7 +121,15 @@ preconnect功能就是为此而来的。
 具体能节省多长时间这个会根据网络延迟来确定，上图只是做了一个加载顺序的表示，并且，随着网速的越来越快，这个差值的确也会越来越小。
 
 #### prefetch
-既然一个内容除了获取数据之外都能提前进行，那何不直接提前加载一个文件呢？prefetch你值得拥有。
+既然一个内容除了获取数据之外都能提前进行，那何不直接提前加载一个文件呢？prefetch你值得拥有，兼容性如下图：
+![prefetch兼容性](/assets/img/prefetch.png)
+主流浏览器兼容：
+- IE11+
+- Firefox 2.0+
+- Chrome 8.0+
+- Safari 全部不支持
+- Opera 15.0+
+
 prefetch是一个低优先级的资源加载策略，此策略允许浏览器在后点（空闲时间）获取稍后可能需要的资源，并将它们存储在浏览器缓存中。一旦页面完成加载，他就会开始下载额外资源，如果用户点击了预先获取的链接，则会立即加载内容。
 如果在执行预加载策略时，如果中途出现了高优先级的请求，则预加载的线程占用会立即释放，并且会将已经加载的全部删除，已让出线程来执行当前页面的内容。
 
@@ -197,14 +174,101 @@ CORS配置，详细可参考[CORS配置](https://html.spec.whatwg.org/multipage/
 进入二级页面之后，base.js直接从缓存读取，
 ![首页提前加载base](/assets/img/prefetch-eg2.png)
 
+#### prerender
+我们已经从各方面都提前处理了，什么？还不知足，那咱们来个重量级的。
+我们直接把接下来可能访问的页面直接提前渲染了如何？
 
+prerender会收集用户接下来要访问的页面，并且在浏览器中创建一个隐藏tab，并且在隐藏Tab中提前加载页面。当跳转到此页面时，相当于直接切换到隐藏tab。
+来看看功能强大的prerender兼容性如何：
+![prerender兼容性](/assets/img/prerender.png)
+主流浏览器兼容：
+- IE11，高版本也不支持
+- Firefox 全部不支持
+- Chrome 13.0+
+- Safari 全部不支持
+- Opera 15.0+
 
+使用方式如prefetch一样，依旧是使用link标签即可：
+```
+<link rel="prerender" href="https://www.jd.com">
+```
+整个prerender运行流程如下图：
+![prerender流程图](/assets/img/prerender-diagram.png)
+
+创建prerender页面过程：
+当访问页面是遇到<link rel=”prerender”>资源标签时，会启动prerender,ResourceDispatcherHost接收到一个resource类型为::Prerender的资源请求--但是这个请求永远不会以网络请求发送，相反它会用作创建PrerenderContents的请求信号，并且取消请求本身。
+PrerenderContents存储于PrerenderManager中，PrerenderManager中会统一管理PrerenderContents目录，允许保留最近创建的少量PrerenderContents，当前的PrerenderContents保留一个页面最多只能30ms，这个时间谷歌更新可能会变化，如果容量达到存储上线，系统会将旧页面删除回收。
+
+虽然此功能只是谷歌更新个一个小功能，但是因为一些问题使得此功能变得复杂化：
+1. 最小化资源争用。
+2. 处理动态媒体[视频、音频、插件、画布]
+3. 取消某些情况下的页面。
+4. 最小化服务器的副作用。
+5. 共享本地存储[cookie、sessionStorage等]
+
+    注意：预渲染虽然美好，但是会造成比较大的流量以及性能的损耗，所以浏览器默认关闭支持此功能。
+
+如果我们需要使用，可以通过以下步骤开启：
+1. 打开高级设置。
+2. 开启如图功能即可。
+![prerender开启功能](/assets/img/prerender1.png)
+
+在预渲染的时候，浏览器的开发者工具是无法监控到具体流程的。如果需要监控，我们需要访问浏览器的：chrome://net-internals/#prerender功能。
+
+![prerender检测效果](/assets/img/prerender2.png)
+
+#### preload
+其实浏览器能提前帮忙做的事情已经做的差不多了，不过W3C不满足，又提供了一个preload，preload这又是什么呢？
+preload也是加载资源的功能，但区别于prefetch的是，prefetch的目的在于针对即将访问的页面使用低优先级来提前预加载资源，而preload则会针对当前页面使用高优先级来加载资源，如字体文件，图片等，但值得注意的是，它不会阻塞onload事件的执行。
+
+preload兼容性如下图：
+![preload兼容性](/assets/img/preload.png)
+主流浏览器兼容：
+- IE17+（仅Http支持）
+- Firefox 全部不支持
+- Chrome 50.0+
+- Safari 11.1+
+- Opera 37.0+
+
+引用的方式与prefetch一直，甚至as以及corssorigin配置也一直，可参考上文：
+```
+<link rel=“preload” href=“./js/base.js” as=“script”>
+```
+
+当页面执行preload加载文件时，不会阻碍其他文件的加载，
+![preload加载效果图](/assets/img/preload1.png)
+
+如果系统中存在字体的话，会出现字体闪动的问题，因字体资源普遍都比较大，所以此时我们可以使用preload来预加载字体，这样可以很好的解决页面闪烁的问题。
+
+因为提前缓存文件会对用户的流量造成浪费，所以浏览器在预加载文件后的3s内没有使用的此文件会提示警告错误。
+
+![preload加载效果图](/assets/img/preload2.png)
+
+但很多情况下我们可能需要动态来添加预加载的内容，我们可以使用如下方式来动态添加:
+```
+preload: function (srcList) {
+    for (var i = 0; i < srcList.length; i++) {
+        var resource = srcList[i].replace(/http:|https:/, '');
+        var head = document.getElementsByTagName('head')[0];
+        var rsTag = document.createElement('link');
+        rsTag.setAttribute('rel', 'prefetch');
+        rsTag.setAttribute('href', resource);
+        head.appendChild(rsTag);
+    }
+},
+```
+但因为功能的性质不同，所以也不是所有内容都可以动态添加的，其实可以动态添加的主要包括：prefetch、preconnect以及prerender。
+
+## 结语
+Resource Hints包含的功能大概让大家了解了一下，当然大家有人可能已经用到了，也可能未用到，但不可否认，在国内的浏览器大环境下的确兼容性不够好，国外的大多数网站都已经采用个各种方式的预加载策略，所以前端大大们，我们如果没有使用过的，也可以尝试使用一下，因为如果不兼容也不会出现问题，何乐而不为呢？
 
 参考文献：
 - W3C官方文档：[https://www.w3.org/TR/resource-hints/](https://www.w3.org/TR/resource-hints/)
 - DNS原理：[http://blog.51cto.com/369369/812889](http://blog.51cto.com/369369/812889)
 - CORS配置：[https://html.spec.whatwg.org/multipage/urls-and-fetching.html#cors-settings-attributes](https://html.spec.whatwg.org/multipage/urls-and-fetching.html#cors-settings-attributes)
 - Resource Hints：[https://www.keycdn.com/blog/resource-hints/](https://www.keycdn.com/blog/resource-hints/)
+- Prerender： [http://www.chromium.org/developers/design-documents/prerender](http://www.chromium.org/developers/design-documents/prerender)
+- Prerender：[https://www.smashingmagazine.com/2016/02/preload-what-is-it-good-for/](https://www.smashingmagazine.com/2016/02/preload-what-is-it-good-for/)
 - Understanding prefetching and how Facebook uses prefetching：[https://www.facebook.com/business/help/1514372351922333](https://www.facebook.com/business/help/1514372351922333)
 
 
