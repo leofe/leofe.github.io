@@ -9,7 +9,9 @@
 
         rsTag.setAttribute('href', resource);
         rsTag.setAttribute('as', 'html');
-        head.appendChild(rsTag);
+        if(window.location.href === 'https://leofe.github.io/') {
+            head.appendChild(rsTag);
+        }        
     }
 })([
     '//leofe.github.io/2018/01/01/2018-01-01-book/',
@@ -27,7 +29,7 @@
     '//leofe.github.io/2018/04/13/2018-04-13-yanglei12/',
     '//leofe.github.io/2018/06/17/2018-06-17-git/',
     '//leofe.github.io/2018/07/13/2018-07-13-pwa/',
-    '//leofe.github.io/2018/08/18/2018-08-18-resource-hints/',
+    '//leofe.github.io/2018/08/31/2018-08-31-resource-hints/',
     '//leofe.github.io/about/',
     '//leofe.github.io/comment/',
     '//leofe.github.io/page/2/'

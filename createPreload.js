@@ -42,7 +42,9 @@ var fileNames = [];
 
         rsTag.setAttribute('href', resource);
         rsTag.setAttribute('as', 'html');
-        head.appendChild(rsTag);
+        if(window.location.href === 'https://leofe.github.io/') {
+            head.appendChild(rsTag);
+        }        
     }
 })([
     ${fileNames.join(`,
