@@ -2,8 +2,7 @@
 (function(srcList) {
     for (var i = 0; i < srcList.length; i++) {
         var name = srcList[i];
-        var arr = name.split('-');
-        var resource = '//leofe.github.io/' + arr[0] + '/' + arr[1] + '/' + arr[2]+ '/' + name+'/';
+        var resource = name;
         var head = document.getElementsByTagName('head')[0];
         var rsTag = document.createElement('link');
         rsTag.setAttribute('rel', 'prefetch');
