@@ -9,7 +9,9 @@
 
         rsTag.setAttribute('href', resource);
         rsTag.setAttribute('as', 'html');
-        head.appendChild(rsTag);
+        if(window.location.href === 'https://leofe.github.io/') {
+            head.appendChild(rsTag);
+        }        
     }
 })([
     '//leofe.github.io/2018/01/01/2018-01-01-book/',
