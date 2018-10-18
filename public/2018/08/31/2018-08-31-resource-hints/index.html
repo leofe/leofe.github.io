@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8" >
     <meta name="baidu-site-verification" content="K1ToSIqNDa" />
     
-    <title>Resource Hints 了解一下 | LEOFE</title>
+    <title>体现工匠精神的Resource Hints | LEOFE</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" >
     <meta name="keywords" content="Leo, 前端, Web, 生活心得, 前端开发" >
     <meta name="description" content="知识杂货店" >
@@ -111,7 +111,7 @@
 <!-- 文章 -->
 <article class="post article">
     <header class="text-center">
-        <h3 class="post-title"><span>Resource Hints 了解一下</span></h3>
+        <h3 class="post-title"><span>体现工匠精神的Resource Hints</span></h3>
     </header>
     <p class="post-meta text-center">
         leo 发表于
@@ -157,6 +157,7 @@
 <p><img src="/assets/img/dnsprefetch.png" alt="dnsprefetch添加后的效果图"></p>
 <p>最直观的效果，在页面加载中少了DNS Lookup的时间，也就是解析DNS的时间。</p>
 <p>DNS与解析主要是用户访问链接之前解析域名的一种尝试，这是使用计算机正常的DNS解析机制完成的，一旦解析了域名，如果用户导航到该域名，就不会因为DNS解析时间而出现延迟，此策略比较适用的场景是，网页中会引用多域名下的信息，我们可以针对使用到的所有域名进行解析，所有这些工作都在用户读取页面时使用最少的CPU和网络资源来完成，当用户访问这些预先解析的网站时，平均会节省1-20ms的时间，更重要的是，如果用户遇到了DNS解析的“最坏情况”延迟，那对于网络延迟的提升是很显著的。</p>
+<h5 id="dns-preferch应用"><a href="#dns-preferch应用" class="headerlink" title="dns-preferch应用"></a>dns-preferch应用</h5><p>我厂项目中均会使用CDN以及图片服务器，并且图片服务器也不只一台，仅仅这些内容，就会造成多次的DNS解析，针对此情况我们使用dns-prefetch，对使用到的域名进行预解析，减少后续域名DNS解析时间，以此来追求更进一步的前端性能。<br><img src="/assets/img/eg1.jpg" alt="项目中的DNS解析使用"><br>项目使用的CDN以及图片服务器地址的DNS预解析，我们均已经集成进我们内部Vue单页面脚手架Gaea。</p>
 <h4 id="preconnect"><a href="#preconnect" class="headerlink" title="preconnect"></a>preconnect</h4><p>当我们调用请求时，会经历怎样的步骤呢？<br><img src="/assets/img/httppath.png" alt="https请求步骤"><br>针对实际的http请求，DNS解析一步，在上一个环节已经提前处理，那么后续的步骤我们可以进行提前处理吗？<br>preconnect功能就是为此而来的。</p>
 <ul>
 <li>针对HTTP：可以提前为URL建立早期链接，可提前完成包含DNS解析+TCP三次握手环节。</li>
@@ -171,6 +172,7 @@
 <p>预链接功能于存在此链接的页面放在一起。打开此页面会直接进行预链接尝试，当点击了跳转是，URL则可直接读取数据。</p>
 <p>如果你期望预链接的地址与当前网站不在同域，我们可以采用跨域方式来进行预链接。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;preconnect&quot; href=&quot;//www.jd.com&quot; crossorigin&gt;</span><br></pre></td></tr></table></figure></p>
 <p>实际添加之后与添加前，后续页面的页面请求情况对比：<br><img src="/assets/img/preconnectresult.png" alt="https请求步骤"><br>具体能节省多长时间这个会根据网络延迟来确定，上图只是做了一个加载顺序的表示，并且，随着网速的越来越快，这个差值的确也会越来越小。</p>
+<h5 id="preconnect应用"><a href="#preconnect应用" class="headerlink" title="preconnect应用"></a>preconnect应用</h5><p>京东企业会员项目中，会存在很多引导性的链接，可以帮助用户访问到自己想去的网站，此页面就会存在很多不同域名下的链接，为此，我们采用了pre-connect的方式来对这些数据的http链接进行的提前请求，当访问到对应页面时减少了页面链接的时间。<br><img src="/assets/img/eg2.jpg" alt="使用preconnect"></p>
 <h4 id="prefetch"><a href="#prefetch" class="headerlink" title="prefetch"></a>prefetch</h4><p>既然一个内容除了获取数据之外都能提前进行，那何不直接提前加载一个文件呢？prefetch你值得拥有，兼容性如下图：<br><img src="/assets/img/prefetch.png" alt="prefetch兼容性"><br>主流浏览器兼容：</p>
 <ul>
 <li>IE11+</li>
@@ -187,6 +189,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">引用情况	                                  预加载类型设置</span><br><span class="line">&lt;audio&gt; 	                                &lt;link rel=preload as=audio href=...&gt;</span><br><span class="line">&lt;video&gt;	                                    &lt;link rel=preload as=video href=...&gt;</span><br><span class="line">&lt;track&gt;	                                    &lt;link rel=preload as=track href=...&gt;</span><br><span class="line">&lt;script&gt;, Worker&apos;s importScripts	        &lt;link rel=preload as=script href=...&gt;</span><br><span class="line">&lt;link rel=stylesheet&gt;, CSS @import	        &lt;link rel=preload as=style href=...&gt;</span><br><span class="line">CSS @font-face	                            &lt;link rel=preload as=font href=...&gt;</span><br><span class="line">&lt;img&gt;, &lt;picture&gt;, srcset, imageset	        &lt;link rel=preload as=image href=...&gt;</span><br><span class="line">SVG&apos;s &lt;image&gt;, CSS *-image	                &lt;link rel=preload as=image href=...&gt;</span><br><span class="line">XHR, fetch	                                &lt;link rel=preload as=fetch crossorigin href=...&gt;</span><br><span class="line">Worker, SharedWorker	                    &lt;link rel=preload as=worker href=...&gt;</span><br><span class="line">&lt;embed&gt;	                                    &lt;link rel=preload as=embed href=...&gt;</span><br><span class="line">&lt;object&gt;	                                &lt;link rel=preload as=object href=...&gt;</span><br><span class="line">&lt;iframe&gt;, &lt;frame&gt;	                        &lt;link rel=preload as=document href=...&gt;</span><br></pre></td></tr></table></figure>
 <p>如果我们预加载的资源与执行代码页面存在跨域的话，我们需要配置跨域，crossorigin为一个配置参数,<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;link rel=&quot;prefetch&quot; href=&quot;//example.com/next-page.html&quot; as=&quot;html&quot; crossorigin=&quot;use-credentials&quot;&gt;</span><br></pre></td></tr></table></figure></p>
 <p>CORS配置，详细可参考<a href="https://html.spec.whatwg.org/multipage/urls-and-fetching.html#cors-settings-attributes" target="_blank" rel="noopener">CORS配置</a>：<br><img src="/assets/img/cors.png" alt="CORS配置"><br>首页我们预加载了一个base.js：<br><img src="/assets/img/prefetch-eg1.png" alt="首页提前加载base"><br>进入二级页面之后，base.js直接从缓存读取，<br><img src="/assets/img/prefetch-eg2.png" alt="首页提前加载base"></p>
+<h5 id="pre-fetch应用"><a href="#pre-fetch应用" class="headerlink" title="pre-fetch应用"></a>pre-fetch应用</h5><p>最近开发京喜平台项目，因管理端特性涉及到一些表格报表类型组件，重复使用如分页，表格，弹窗等多个组件，为避免重复加载影响性能，我们采用pre-fetch对可能会造成重复加载的资源进行提前预加载，以保证我们可以更快速的获取组件资源渲染页面，并且在部分页面我们还会针对性的对下一个页面的业务JS进行动态预加载，引用方式如下图：<br><img src="/assets/img/eg3.jpg" alt="京喜平台使用prefetch进行预加载"></p>
 <h4 id="prerender"><a href="#prerender" class="headerlink" title="prerender"></a>prerender</h4><p>我们已经从各方面都提前处理了，什么？还不知足，那咱们来个重量级的。<br>我们直接把接下来可能访问的页面直接提前渲染了如何？</p>
 <p>prerender会收集用户接下来要访问的页面，并且在浏览器中创建一个隐藏tab，并且在隐藏Tab中提前加载页面。当跳转到此页面时，相当于直接切换到隐藏tab。<br>来看看功能强大的prerender兼容性如何：<br><img src="/assets/img/prerender.png" alt="prerender兼容性"><br>主流浏览器兼容：</p>
 <ul>
@@ -232,6 +235,7 @@
 <p><img src="/assets/img/preload2.png" alt="preload加载效果图"></p>
 <p>但很多情况下我们可能需要动态来添加预加载的内容，我们可以使用如下方式来动态添加:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">preload: function (srcList) &#123;</span><br><span class="line">    for (var i = 0; i &lt; srcList.length; i++) &#123;</span><br><span class="line">        var resource = srcList[i].replace(/http:|https:/, &apos;&apos;);</span><br><span class="line">        var head = document.getElementsByTagName(&apos;head&apos;)[0];</span><br><span class="line">        var rsTag = document.createElement(&apos;link&apos;);</span><br><span class="line">        rsTag.setAttribute(&apos;rel&apos;, &apos;prefetch&apos;);</span><br><span class="line">        rsTag.setAttribute(&apos;href&apos;, resource);</span><br><span class="line">        head.appendChild(rsTag);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure></p>
 <p>但因为功能的性质不同，所以也不是所有内容都可以动态添加的，其实可以动态添加的主要包括：prefetch、preconnect以及prerender。</p>
+<h5 id="preload应用"><a href="#preload应用" class="headerlink" title="preload应用"></a>preload应用</h5><p>提前预加载比较适合一些大文件资源，单页面应用在开发时因通过构建工具进行了部分合并，导致资源文件并不会太多，针对此种情况我们通过使用preload对这些资源文件进行提高优先级的预加载，让整体页面加载速度更快。</p>
 <h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>Resource Hints包含的功能大概让大家了解了一下，当然大家有人可能已经用到了，也可能未用到，但不可否认，在国内的浏览器大环境下的确兼容性不够好，国外的大多数网站都已经采用个各种方式的预加载策略，所以前端大大们，我们如果没有使用过的，也可以尝试使用一下，因为如果不兼容也不会出现问题，何乐而不为呢？</p>
 <p>参考文献：</p>
 <ul>
@@ -413,9 +417,9 @@
   
     <a class="tag-item" href="/tags/WebGL/" title="WebGL">WebGL (5)</a>
   
-    <a class="tag-item" href="/tags/Git/" title="Git">Git (1)</a>
-  
     <a class="tag-item" href="/tags/技术/" title="技术">技术 (1)</a>
+  
+    <a class="tag-item" href="/tags/Git/" title="Git">Git (1)</a>
   
     <a class="tag-item" href="/tags/PWA/" title="PWA">PWA (1)</a>
   
