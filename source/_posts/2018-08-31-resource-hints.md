@@ -1,5 +1,5 @@
 ---
-title: 体现工匠精神的Resource Hints
+title: 体现工匠精神的 Resource Hints
 date: 2018-08-31
 author: leo
 tags: 技术
@@ -10,6 +10,7 @@ blogexcerpt: 从古至今都想预测未来，周易八卦，推背图等，有�
 ---
 
 ## 背景
+
 <img src="/assets/img/zhouyi.png" alt="周易八卦图" style="width: 400px;">
 
 这是一张八卦图，来讲讲玄学领域，古代的皇帝一直都在追求长生，追求预测国运，预测未来，每个朝代也都有专门的观星岗位，想借助行星的轨迹来窥探未来的走势，我了解的比较出名的就是李淳風、袁天罡著的推背图了，据说推算出了从唐朝往后2000年历史，为何古代人对未来运势如此着迷呢？好吧，玄学讲到这里，本章主要不讨论玄学，如有兴趣可以留言一起讨论一下哈。
@@ -25,6 +26,7 @@ blogexcerpt: 从古至今都想预测未来，周易八卦，推背图等，有�
 2. 高级一点：我可以在执行的js代码来进行load加载
 
 在高级点？
+
 <img src="/assets/img/monkey.png" alt="猴子" width="200px">
 
 #### 听小道消息说谷歌这么搞
@@ -57,11 +59,15 @@ Resource Hints实际上就是“合法化”的提供了使用浏览器原始语
 #### dns-prefetch
 谈到这里，不得不先介绍一下DNS是一个什么东西。
 DNS(Domain Name System) - 域名和IP地址相互映射的一个分部式数据库。
+
 ![DNS原理](/assets/img/dns.png)
+
 当我们访问一个域名的时候，DNS系统会根据域名去一层一层的开始解析，从全世界的分布系统中查询对应的IP地址，然后通过IP地址来访问对应的网页数据。
 
 DNS解析时间会导致大量用户感知延迟。DNS解析所花费的时间是高度可变的。延迟时间范围从大约1ms(本地缓存的结果)到通常几秒钟的时间，所以为了解决此延迟，W3C提供了dns-prefetch功能，兼容性如图：
+
 ![dns-prefetch兼容性](/assets/img/dns-prefetch.png)
+
 主流浏览器兼容：
 - IE10+
 - Firefox 3.0+
@@ -83,18 +89,24 @@ DNS与解析主要是用户访问链接之前解析域名的一种尝试，这�
 ##### dns-preferch应用
 
 我厂项目中均会使用CDN以及图片服务器，并且图片服务器也不只一台，仅仅这些内容，就会造成多次的DNS解析，针对此情况我们使用dns-prefetch，对使用到的域名进行预解析，减少后续域名DNS解析时间，以此来追求更进一步的前端性能。
+
 ![项目中的DNS解析使用](/assets/img/eg1.jpg)
+
 项目使用的CDN以及图片服务器地址的DNS预解析，我们均已经集成进我们内部Vue单页面脚手架Gaea。
 
 #### preconnect
 当我们调用请求时，会经历怎样的步骤呢？
+
 ![https请求步骤](/assets/img/httppath.png)
+
 针对实际的http请求，DNS解析一步，在上一个环节已经提前处理，那么后续的步骤我们可以进行提前处理吗？
 preconnect功能就是为此而来的。
 - 针对HTTP：可以提前为URL建立早期链接，可提前完成包含DNS解析+TCP三次握手环节。
 - 针对HTTPS：可以提前为URL建立早期链接，可提前完成包括DNS解析+TCP三次握手+TLS/SSL握手环节。
 在来看看其兼容性如何：
+
 ![preconnect兼容性](/assets/img/preconnect.png)
+
 主流浏览器兼容：
 - IE15+(http 时才支持)
 - Firefox 39.0+
@@ -123,15 +135,19 @@ preconnect功能就是为此而来的。
 ```
 
 实际添加之后与添加前，后续页面的页面请求情况对比：
+
 ![https请求步骤](/assets/img/preconnectresult.png)
+
 具体能节省多长时间这个会根据网络延迟来确定，上图只是做了一个加载顺序的表示，并且，随着网速的越来越快，这个差值的确也会越来越小。
 
 ##### preconnect应用
 京东企业会员项目中，会存在很多引导性的链接，可以帮助用户访问到自己想去的网站，此页面就会存在很多不同域名下的链接，为此，我们采用了pre-connect的方式来对这些数据的http链接进行的提前请求，当访问到对应页面时减少了页面链接的时间。
+
 ![使用preconnect](/assets/img/eg2.jpg)
 
 #### prefetch
 既然一个内容除了获取数据之外都能提前进行，那何不直接提前加载一个文件呢？prefetch你值得拥有，兼容性如下图：
+
 ![prefetch兼容性](/assets/img/prefetch.png)
 主流浏览器兼容：
 - IE11+
@@ -178,14 +194,20 @@ Worker, SharedWorker	                    <link rel=preload as=worker href=...>
 <link rel="prefetch" href="//example.com/next-page.html" as="html" crossorigin="use-credentials">
 ```
 CORS配置，详细可参考[CORS配置](https://html.spec.whatwg.org/multipage/urls-and-fetching.html#cors-settings-attributes)：
+
 ![CORS配置](/assets/img/cors.png)
+
 首页我们预加载了一个base.js：
+
 ![首页提前加载base](/assets/img/prefetch-eg1.png)
+
 进入二级页面之后，base.js直接从缓存读取，
+
 ![首页提前加载base](/assets/img/prefetch-eg2.png)
 
 ##### pre-fetch应用
 最近开发京喜平台项目，因管理端特性涉及到一些表格报表类型组件，重复使用如分页，表格，弹窗等多个组件，为避免重复加载影响性能，我们采用pre-fetch对可能会造成重复加载的资源进行提前预加载，以保证我们可以更快速的获取组件资源渲染页面，并且在部分页面我们还会针对性的对下一个页面的业务JS进行动态预加载，引用方式如下图：
+
 ![京喜平台使用prefetch进行预加载](/assets/img/eg3.jpg)
 
 #### prerender
@@ -194,7 +216,9 @@ CORS配置，详细可参考[CORS配置](https://html.spec.whatwg.org/multipage/
 
 prerender会收集用户接下来要访问的页面，并且在浏览器中创建一个隐藏tab，并且在隐藏Tab中提前加载页面。当跳转到此页面时，相当于直接切换到隐藏tab。
 来看看功能强大的prerender兼容性如何：
+
 ![prerender兼容性](/assets/img/prerender.png)
+
 主流浏览器兼容：
 - IE11，高版本也不支持
 - Firefox 全部不支持
@@ -207,6 +231,7 @@ prerender会收集用户接下来要访问的页面，并且在浏览器中创�
 <link rel="prerender" href="https://www.jd.com">
 ```
 整个prerender运行流程如下图：
+
 ![prerender流程图](/assets/img/prerender-diagram.png)
 
 创建prerender页面过程：
@@ -225,6 +250,7 @@ PrerenderContents存储于PrerenderManager中，PrerenderManager中会统一管�
 如果我们需要使用，可以通过以下步骤开启：
 1. 打开高级设置。
 2. 开启如图功能即可。
+
 ![prerender开启功能](/assets/img/prerender1.png)
 
 在预渲染的时候，浏览器的开发者工具是无法监控到具体流程的。如果需要监控，我们需要访问浏览器的：chrome://net-internals/#prerender功能。
@@ -236,7 +262,9 @@ PrerenderContents存储于PrerenderManager中，PrerenderManager中会统一管�
 preload也是加载资源的功能，但区别于prefetch的是，prefetch的目的在于针对即将访问的页面使用低优先级来提前预加载资源，而preload则会针对当前页面使用高优先级来加载资源，如字体文件，图片等，但值得注意的是，它不会阻塞onload事件的执行。
 
 preload兼容性如下图：
+
 ![preload兼容性](/assets/img/preload.png)
+
 主流浏览器兼容：
 - IE17+（仅Http支持）
 - Firefox 全部不支持
@@ -250,6 +278,7 @@ preload兼容性如下图：
 ```
 
 当页面执行preload加载文件时，不会阻碍其他文件的加载，
+
 ![preload加载效果图](/assets/img/preload1.png)
 
 如果系统中存在字体的话，会出现字体闪动的问题，因字体资源普遍都比较大，所以此时我们可以使用preload来预加载字体，这样可以很好的解决页面闪烁的问题。
@@ -285,7 +314,7 @@ Resource Hints包含的功能大概让大家了解了一下，当然大家有人
 - CORS配置：[https://html.spec.whatwg.org/multipage/urls-and-fetching.html#cors-settings-attributes](https://html.spec.whatwg.org/multipage/urls-and-fetching.html#cors-settings-attributes)
 - Resource Hints：[https://www.keycdn.com/blog/resource-hints/](https://www.keycdn.com/blog/resource-hints/)
 - Prerender： [http://www.chromium.org/developers/design-documents/prerender](http://www.chromium.org/developers/design-documents/prerender)
-- Prerender：[https://www.smashingmagazine.com/2016/02/preload-what-is-it-good-for/](https://www.smashingmagazine.com/2016/02/preload-what-is-it-good-for/)
+- Preload：What Is It Good For？：[https://www.smashingmagazine.com/2016/02/preload-what-is-it-good-for/](https://www.smashingmagazine.com/2016/02/preload-what-is-it-good-for/)
 - Understanding prefetching and how Facebook uses prefetching：[https://www.facebook.com/business/help/1514372351922333](https://www.facebook.com/business/help/1514372351922333)
 
 
